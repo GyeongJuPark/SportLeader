@@ -1,0 +1,28 @@
+﻿@import "./header.css";
+@import "./sidebar.css";
+@import "./main.css";
+@import "./register.css";
+@import "./detail.css";
+@import "./footer.css";
+
+
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+}
+
+html, body {
+    width: 1600px;
+    height: 720px;
+    font-family: Pretendard-Regular;
+    font-weight: 400;
+    font-size: 14px;
+    
+}
+
+.renderbody > p {
+    margin: 39px 0 57px 60px;
+    font-weight: 700;
+    font-size: 24px;
+    color: #212529;
+}
