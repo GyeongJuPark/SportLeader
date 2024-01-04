@@ -1,11 +1,5 @@
-﻿@* @await Html.PartialAsync("_Header")
-@await Html.PartialAsync("_Sidebar") *@
-@model LeaderViewModel
-@{
+﻿@{
     ViewData["Title"] = "Main";
-    var sp = ViewBag.Sports;
-    var ap = ViewBag.Leaders;
-    var al = ViewBag.Alls;
 }
 
 <section class="leader_management">
@@ -26,10 +20,9 @@
     </div>
 
     <div class="allLeaderList">
-        <p>전체 지도자 목록<sub></sub></p>
-        <button class="btnDeleteLeader" type="button" onclick="btnDeleteSelectedLeaders()">삭제하기</button>
-        @* <button class="add_leader" type="button" onclick="loadLeaderRegister()">지도자 등록하기</button> *@
-        <button class="add_leader" type="button"><a asp-controller="Home" asp-action="Register">지도자 등록하기</a></button>
+        <p>전체 지도자 목록<sub id="countLeader"></sub></p>
+        <button class="btnDeleteLeader" onclick="deleteSelectedLeaders()">삭제하기</button>
+        <button class="add_leader" type="button" onclick="MoveRegisterPage()">지도자 등록하기</button>
 
         <table id="leaderListTable">
             <thead>
@@ -44,65 +37,29 @@
                 </tr>
             </thead>
 
-            <tbody id="leaderListTableBody"></tbody>
+            <tbody id="leaderListTableBody">
+            </tbody>
         </table>
 
         <div class="pagination">
-            <button onclick="goToFirstPage()"></button>
             <button onclick="goToPrevPage()"></button>
             <button onclick="goToPage(1)"></button>
             <button onclick="goToPage(2)"></button>
             <button onclick="goToNextPage()"></button>
-            <button onclick="goToLastPage()"></button>
         </div>
 
     </div>
 </section>
 
-@* @await Html.PartialAsync("_Footer") *@
-@await Html.PartialAsync("_TestTable", Model)
 
-<script src="~/js/main.js" asp-append-version="true"></script>
 
-@section Scripts {
+
+@section Scripts{
     <script>
-        
-        console.log(@Html.Raw(sp));
-        console.log(@Html.Raw(ap));
-        console.log(@Html.Raw(al));
-
-        
-        // console.log('@sp')
-        // console.log('@ap')
-    </script>
-}
-
-@* @section Scripts {
-    <script>
-        $(document).ready(function () {
-            LoadLeader();
-        });
-
-        function LoadLeader() {
-            tabledata = [];
-            $.ajax({
-                type: "GET",
-                url: 'https://jbeteacherstytem-dev.azurewebsites.net/api/leaders/list',
-                dataType: "json",
-                success:function(data){
-                    $.each(data, function(key, value)) {
-                        var _action = '';
-                        tabledata.push([value.leaderNo, value.leaderName, value.schoolName, value.sportName, _action])
-                    }
-                }
-                error: function (error) {
-
-                }
-            })
-            $('#leaderListTable').DataTable({
-                data;
-            })
+        // 상세 페이지로 이동
+        function MoveDetailPage(leaderNo) {
+            window.location.href = '@Url.Action("Detail")?id=' + leaderNo;
         }
-
-
-    </script> *@
+    </script>
+    <script src="~/js/main.js" asp-append-version="true"></script>
+}

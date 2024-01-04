@@ -1,16 +1,15 @@
-﻿<div class="container">
+﻿@model LeaderInfoDTO
+
+<div class="container">
     <h4>지도자 상세정보</h4>
-    <div class="inner">
+    <div class="inner" style="margin-left: 120px">
         <div class="profile">
             <p>1. 일반 현황(2023년 01월 01일 기준)<small class="requiredFields">* 필수입력값 항목입니다.</small></p>
             <div class="division-line"></div>
             <div class="profileInfo__inner">
                 <div class="profile__image">
                     <div class="profile__imageArea">
-                        <img id="leaderImage" />
-                        <label class="profile__imageLabelInfo" for="input-image">
-                            <p>사진 첨부하기</p>
-                        </label>
+                        <img id="leaderImage" src="data:image/png;base64,@Model.LeaderImage" />
                         <input type="file" id="input-image" style="display: none" />
                     </div>
                     <p>파일 크기는 MB 이하로 등록해주세요.</p>
@@ -23,12 +22,12 @@
                             <div class="input__code">
                                 <label>식별코드</label>
                                 <hr>
-                                <p id="leaderNo"></p>
+                                <p>@Model.LeaderNo</p>
                             </div>
                             <div class="input__school">
                                 <label>학교명</label>
                                 <hr>
-                                <p id="schoolName"></p>
+                                <p id="schoolName">@Model.SchoolNo</p>
                             </div>
                         </div>
                     </div>
@@ -38,17 +37,17 @@
                             <div class="input__name">
                                 <label>성명</label>
                                 <hr class="labelLine">
-                                <p id="leaderName"></p>
+                                <p id="leaderName">@Model.LeaderName</p>
                             </div>
                             <div class="input__birthday">
                                 <label>생년월일</label>
                                 <hr class="labelLine">
-                                <p id="birthday"></p>
+                                <p id="birthday">@Model.Birthday.ToString("yyyy-MM-dd")</p>
                             </div>
                             <div class="input__gender">
                                 <label>성별</label>
                                 <hr class="labelLine">
-                                <p id="gender"></p>
+                                <p id="gender">@(Model.Gender == "M" ? "남자" : "여자")</p>
                             </div>
                         </div>
                     </div>
@@ -58,17 +57,17 @@
                             <div class="input__sports">
                                 <label>종목</label>
                                 <hr class="labelLine">
-                                <p id="sportName"></p>
+                                <p id="sportName">@Model.SportsNo</p>
                             </div>
                             <div class="input__tel">
                                 <label>근무지 전화번호</label>
                                 <hr class="labelLine">
-                                <p id="telNo"></p>
+                                <p id="telNo">@Model.TelNo</p>
                             </div>
                             <div>
                                 <label>최초채용</label>
                                 <hr class="labelLine">
-                                <p id="empDT"></p>
+                                <p id="empDT">@Model.EmpDT.ToString("yyyy-MM-dd")</p>
                             </div>
                         </div>
                     </div>
@@ -92,13 +91,26 @@
                             </tr>
                         </thead>
                         <tbody id="historyInfoTableBody">
-                            <tr>
-                                <td id="historySchoolName"></td>
-                                <td id="historyStartDT"></td>
-                                <td id="historyEndDT"></td>
-                                <td id="historySports"></td>
-                            </tr>
+                            @foreach (var historyItems in Model.Histories)
+                            {
+                                <tr>
+                                    <td id="historySchoolName">@historyItems.SchoolName</td>
+                                    <td id="historyStartDT">@historyItems.StartDT.ToString("yyyy-MM-dd")</td>
+                                    <td id="historyEndDT">
+                                        @if (historyItems.EndDT != default(DateTime))
+                                        {
+                                            @historyItems.EndDT?.ToString("yyyy-MM-dd")
+                                        }
+                                        else
+                                        {
+                                            @("-")
+                                        }
+                                    </td>
+                                    <td id="historySports">@historyItems.SportsNo</td>
+                                </tr>
+                            }
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -118,20 +130,39 @@
                         </thead>
 
                         <tbody id="certificateInfoTableBody">
-                            <tr>
-                                <td id="certificateName"></td>
-                                <td id="certificateNumber"></td>
-                                <td id="certificateDT"></td>
-                                <td id="organization"></td>
-                            </tr>
+                            @foreach (var certificateItems in Model.Certificates)
+                            {
+                                <tr>
+                                    <td id="certificateName">@certificateItems.CertificateName</td>
+                                    <td id="certificateNumber">@certificateItems.CertificateNo</td>
+                                    <td>@certificateItems.CertificateDT.ToString("yyyy-MM-dd")</td>
+                                    <td>@certificateItems.Organization</td>
+                                </tr>
+                            }
+
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <div class="buttons">
-            <button class="toList" type="button"><a asp-controller="Home" asp-action="Index">목록으로</a></button>
-            <button id="lSubmit" class="signup_btn" type="button">수정하기</button>
+            <button class="toList" type="button" onclick="MoveIndexPage()">목록으로</button>
+            <button id="lSubmit" class="signup_btn" type="button" onclick="MoveUpdatePage('@Model.LeaderNo')">수정하기</button>
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script>
+        function MoveUpdatePage(leaderNo) {
+            window.location.href = '@Url.Action("Update")?id=' + leaderNo;
+        }
+
+        // 목록 페이지로 이동
+        function MoveIndexPage() {
+            window.location.href = "/Home/Index";
+        }
+
+    </script>
+}

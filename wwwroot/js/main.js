@@ -1,162 +1,15 @@
 ﻿$(document).ready(function () {
-    allLeaderList();
+    allLeaderList()
     setupDropdownMenu();
 });
 
-function loadLeaderRegister() {
-    $.ajax({
-        type: "GET",
-        url: "Home/Register",
-        dataType: "text",
-        error: function () {
-            console.warn("페이지 로딩 에러")
-        },
-        success: function (data) {
-            $('.leader_management').html(data).css('height', 'auto');
-        }
-    });
-}
+// orgLeaders <-- 서버에서 가져온 전체 데이터
+// leaders <-- 필터링된 데이터
+// currentPageLeaders <-- 현재 페이지에 해당되는 데이터
 
-// 선택한 지도자 행 삭제
-function btnDeleteSelectedLeaders() {
-    var selectedRows = $(".rowCheckbox:checked").closest("tr");
+var orgLeaders = [];
+var filteredLeaders = [];
 
-    if (selectedRows.length > 0) {
-        var leaderNos = selectedRows.map(function () {
-            return { "leaderNo": $(this).find("td:nth-child(3)").text() };
-        }).get();
-
-        $.ajax({
-            type: "DELETE",
-            url: "https://jbeteacherstytem-dev.azurewebsites.net/api/leaders",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(leaderNos),
-            success: function () {
-                selectedRows.remove();
-                btnToggleDelete();
-                allLeaderList();
-                updatePaginationButtons();
-                goToFirstPage()
-            },
-            error: function () {
-                alert('삭제 중 오류가 발생했습니다.');
-            }
-        });
-    }
-}
-
-// 지도자 전체 목록
-function allLeaderList() {
-    $.ajax({
-        type: "GET",
-        url: "https://jbeteacherstytem-dev.azurewebsites.net/api/leaders/list",
-        dataType: "json",
-        data: {
-            page: currentPage,
-            perPage: itemsPerPage
-        },
-        success: function (data) {
-            totalPages = calculateTotalPages(data.length, itemsPerPage);
-            updatePaginationButtons();
-
-            $("#leaderListTableBody").empty();
-
-            var startIndex = (currentPage - 1) * itemsPerPage;
-            var endIndex = startIndex + itemsPerPage;
-
-            if (data.length > 0) {
-                for (var i = startIndex; i < endIndex && i < data.length; i++) {
-                    var item = data[i];
-
-                    $("#leaderListTable").append(
-                        "<tr>" +
-                        "<td><input type='checkbox' class='rowCheckbox' onchange='btnToggleDelete()'></td>" +
-                        "<td>" + (i + 1) + "</td>" +
-                        "<td>" + item.leaderNo + "</td>" +
-                        "<td>" + item.leaderName + "</td>" +
-                        "<td>" + item.sportName + "</td>" +
-                        "<td>" + item.schoolName + "</td>" +
-                        "<td><input type='button' onclick='btnLeaderDetail(this)' value = '상세보기' /></td > " +
-                        //"<td><button class='add_leader' type='button'><a asp-controller='Home' asp-action='Detail'>지도자 등록하기</a></button></td>" +
-                        "</tr>"
-                    );
-                }
-            } else {
-                $("#leaderListTableBody").append(
-                    "<tr><td colspan='7'>등록된 지도자가 없습니다. 지도자를 등록해주세요.</td></tr>"
-                );
-            }
-
-            $(".all_leaderList p sub").text("총 " + data.length + "명");
-        },
-        error: function () {
-            alert('데이터를 불러오는데 실패했습니다.');
-        }
-    });
-}
-
-// [ 지도자 관리 ] - 상세보기
-function btnLeaderDetail(element) {
-    var leaderNo = $(element).closest("tr").find("td:nth-child(3)").text();
-
-    $.ajax({
-        type: "GET",
-        url: "Home/Detail",
-        data: { leaderNo: leaderNo },
-        dataType: "html",
-        success: function (data) {
-            $(".leader_management").html(data).css('height', '1660');
-            fetchLeaderDetails(leaderNo);
-        },
-        error: function () {
-            alert('페이지 로드에 실패했습니다.');
-        }
-    });
-}
-
-// [ 지도자 상세정보 ] 데이터 불러오기
-function fetchLeaderDetails(leaderNo) {
-    $.ajax({
-        type: "GET",
-        url: "https://jbeteacherstytem-dev.azurewebsites.net/api/leaders/" + leaderNo,
-        data: { leaderNo: leaderNo },
-        dataType: "json",
-        success: function (data) {
-            getLeaderInfoData(data);
-        },
-        error: function () {
-            console.warn('데이터를 불러오는데 실패했습니다.');
-        }
-    });
-}
-
-// [ 지도자 상세정보 ] 지도자 데이터 가져와서 항목에 맞게 삽입
-function getLeaderInfoData(data) {
-    $("#leaderNo").text(data.leaderNo);
-    $("#schoolName").text(data.history[0].schoolName);
-    $("#leaderName").text(data.leaderName);
-    $("#birthday").text(data.birthday);
-    $("#gender").text(data.gender);
-    $("#sportName").text(data.sportName);
-    $("#telNo").text(data.telNo);
-    $("#empDT").text(data.empDT);
-
-    if (data.history) {
-        updateWorkHistory(data.history);
-    } else {
-        console.warn("근무 이력 데이터가 없습니다.");
-    }
-    if (data.certificate) {
-        updateCertificates(data.certificate);
-    } else {
-        console.warn("자격사항 데이터가 없습니다.");
-    }
-    if (data.leaderImg) {
-        $("#leaderImage").attr("src", "data:image/png;base64," + data.leaderImg);
-    } else {
-        console.warn("이미지 데이터가 없습니다.");
-    }
-}
 
 // [ 지도자 상세정보 ] 근무이력 
 function updateWorkHistory(workHistory) {
@@ -204,28 +57,33 @@ function updateCertificates(certificates) {
 
 // [ 지도자 관리 ] - 검색기능
 function searchInput() {
-    var searchInput = $("#searchInput").val();
+    var searchInput = $("#searchInput").val() ?? '';
     var searchType = $(".btn-select").text();
+    
+    let filteredLeaders = searchInput !== ''
+        ? filterLeaders(searchInput, searchType)
+        : orgLeaders;
 
-    $("#leaderListTableBody tr").hide();
-
-    if (searchInput === "") {
-        $("#leaderListTableBody tr").show();
-    } else {
-        if (searchType === "전체") {
-            searchMatchResult("#leaderListTableBody tr", searchInput);
-        } else if (searchType === "이름") {
-            searchMatchResult("#leaderListTableBody tr td:nth-child(4)", searchInput);
-        } else if (searchType === "종목") {
-            searchMatchResult("#leaderListTableBody tr td:nth-child(5)", searchInput);
-        }
-    }
+    totalPages = calculateTotalPages(filteredLeaders.length, itemsPerPage);
+    drawLeaderTable(filteredLeaders, currentPage);
+    updatePaginationButtons(totalPages);
 }
 
-function searchMatchResult(selector, searchInput) {
-    $(selector).filter(function () {
-        return $(this).text().includes(searchInput);
-    }).closest('tr').show();
+
+function filterLeaders(searchInput, searchType) {
+    return orgLeaders.filter(function (leader) {
+        if (searchType === "전체") {
+            return leader.leaderName.includes(searchInput)
+                || leader.sportsNo.includes(searchInput)
+                || leader.leaderNo.includes(searchInput)
+                || leader.schoolNo.includes(searchInput);
+        } else if (searchType === "이름") {
+            return leader.leaderName.includes(searchInput);
+        } else if (searchType === "종목") {
+            return leader.sportsNo.includes(searchInput);
+        }
+        return false;
+    });
 }
 
 function toggleAllCheckboxes() {
@@ -260,7 +118,57 @@ function setupDropdownMenu() {
         }
     });
 }
+
+// 지도자 삭제 기능
+function deleteSelectedLeaders() {
+    var selectedLeaderNos = [];
+
+    document.querySelectorAll('.rowCheckbox:checked').forEach(checkbox => {
+        selectedLeaderNos.push(checkbox.value);
+    });
+    console.log(selectedLeaderNos);
+
+    if (selectedLeaderNos.length > 0) {
+        $.ajax({
+            url: '/Home',
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify(selectedLeaderNos),
+            success: function (data) {
+                window.location.href = '/Home/Index';
+                console.log("삭제 성공");
+            },
+            error: function (error) {
+                console.error('삭제 실패', error);
+            }
+        });
+    }
+}
+function MoveRegisterPage() { 
+     window.location.href = '/Home/Register';
+}
+
+
 // 페이지네이션
+function goToPrevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        drawLeaderTable(filteredLeaders, currentPage);
+    }
+}
+
+function goToPage(pageNumber) {
+    currentPage = pageNumber;
+    drawLeaderTable(filteredLeaders, pageNumber);
+}
+
+function goToNextPage() {
+    if (currentPage < totalPages) {
+        currentPage++;
+        drawLeaderTable(filteredLeaders, currentPage);
+    }
+}
+
 var currentPage = 1;
 var itemsPerPage = 10;
 var totalPages;
@@ -269,42 +177,58 @@ function calculateTotalPages(totalItems, itemsPerPage) {
     return Math.ceil(totalItems / itemsPerPage);
 }
 
-function goToFirstPage() {
-    if (currentPage !== 1) {
-        currentPage = 1;
-        allLeaderList();
+
+function allLeaderList() {
+    $.ajax({
+        type: "GET",
+        url: "/api/GetAllList",
+        dataType: "json",
+
+        success: function (data) {
+            orgLeaders = data;
+            filteredLeaders = data;
+            totalPages = calculateTotalPages(data.length, itemsPerPage)
+            drawLeaderTable(data, currentPage);
+        },
+        error: function () {
+            alert('데이터를 불러오는데 실패했습니다.');
+        }
+    });
+}
+
+function drawLeaderTable(data, currentPage) {
+
+    //console.log(`테이블 그리기: ${data.length}`);
+    $("#leaderListTableBody").empty();
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = startIndex + itemsPerPage;
+
+    if (data.length > 0) {
+        for (var i = startIndex; i < endIndex && i < data.length; i++) {
+            var item = data[i];
+
+            $("#leaderListTable").append(
+                "<tr>" +
+                "<td><input type='checkbox' value='" + item.leaderNo + "' class= 'rowCheckbox' onchange = 'btnToggleDelete()' ></td > " +
+                "<td>" + (i + 1) + "</td>" +
+                "<td>" + item.leaderNo + "</td>" +
+                "<td>" + item.leaderName + "</td>" +
+                "<td>" + item.sportsNo + "</td>" +
+                "<td>" + item.schoolNo + "</td>" +
+                "<td><input type='button' onclick='MoveDetailPage(\"" + item.leaderNo + "\")' value='상세보기' /></td>" +
+                "</tr>"
+            );
+
+        }
     }
+    updatePaginationButtons(totalPages);
+
+
+    $("#countLeader").text("총 " + data.length + "명");
 }
 
-function goToPrevPage() {
-    if (currentPage > 1) {
-        currentPage--;
-        allLeaderList();
-    }
-}
-
-function goToPage(pageNumber) {
-    currentPage = pageNumber;
-    allLeaderList();
-}
-
-function goToNextPage() {
-    if (currentPage < totalPages) {
-        currentPage++;
-        allLeaderList();
-    }
-}
-
-function goToLastPage() {
-    if (currentPage !== totalPages) {
-        currentPage = totalPages;
-        allLeaderList();
-    }
-}
-
-function updatePaginationButtons() {
+function updatePaginationButtons(totalPages) {
     $(".pagination button").remove();
-    $(".pagination").append("<button onclick='goToFirstPage()'></button>");
     $(".pagination").append("<button onclick='goToPrevPage()'><img src='../images/leftArrow.png' alt='Previous'></button>");
 
     for (var i = 1; i <= totalPages; i++) {
@@ -316,5 +240,4 @@ function updatePaginationButtons() {
     }
 
     $(".pagination").append("<button onclick='goToNextPage()'><img src='../images/rightArrow.png' alt='Next'></button>");
-    $(".pagination").append("<button onclick='goToLastPage()'>");
 }

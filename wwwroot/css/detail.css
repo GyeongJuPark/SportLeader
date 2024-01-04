@@ -1,9 +1,11 @@
 ﻿h4 {
     margin: 39px 0 60px 12px;
+    margin-left: 120px;
     font-weight: 700;
     font-size: 24px;
     color: #212529;
 }
+
 
 hr {
     width: 436px;
