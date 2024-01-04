@@ -1,0 +1,93 @@
+﻿<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/boorstrap/3.3.7/css/bootstrap.min.css" />
+
+<h3>Add New Leader</h3>
+
+<form class="form form-horizontal" method="post">
+    <div class="form-group">
+        <img src="https://image.ibb.co/iKfYKx/computer.jpg" />
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>LeaderNo:</label>
+            <input type="text" class="form-control" name="leaderNo" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>LeaderName:</label>
+            <input type="text" class="form-control" name="leaderName" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>SchoolNo:</label>
+            <input type="text" class="form-control" name="schoolNo" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>SportslNo:</label>
+            <input type="text" class="form-control" name="sportsNo" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Gender:</label>
+            <input type="text" class="form-control" name="gender" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>TelNo:</label>
+            <input type="text" class="form-control" name="telNo" />
+        </div>
+    </div>
+
+    <!-- Work History -->
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Work History:</label>
+            <div class="form-group">
+                <label>Start Date:</label>
+                <input type="text" class="form-control" name="history[0].startDT" />
+            </div>
+            <div class="form-group">
+                <label>End Date:</label>
+                <input type="text" class="form-control" name="history[0].endDT" />
+            </div>
+            <div class="form-group">
+                <label>School Name:</label>
+                <input type="text" class="form-control" name="history[0].schoolName" />
+            </div>
+            <div class="form-group">
+                <label>SportsNo:</label>
+                <input type="text" class="form-control" name="history[0].sportsNo" />
+            </div>
+        </div>
+    </div>
+
+    <!-- Certificate -->
+    <div class="form-group">
+        <div class="col-md-3">
+            <label>Certificate:</label>
+            <div class="form-group">
+                <label>Certificate Name:</label>
+                <input type="text" class="form-control" name="certificate[0].certificateName" />
+            </div>
+            <div class="form-group">
+                <label>Certificate Number:</label>
+                <input type="text" class="form-control" name="certificate[0].certificateNumber" />
+            </div>
+            <div class="form-group">
+                <label>Certificate Date:</label>
+                <input type="text" class="form-control" name="certificate[0].certificateDT" />
+            </div>
+            <div class="form-group">
+                <label>Organization:</label>
+                <input type="text" class="form-control" name="certificate[0].organization" />
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

@@ -1,0 +1,85 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\detail.css",
+      "PackagePath": "staticwebassets\\css\\detail.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\footer.css",
+      "PackagePath": "staticwebassets\\css\\footer.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\header.css",
+      "PackagePath": "staticwebassets\\css\\header.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\main.css",
+      "PackagePath": "staticwebassets\\css\\main.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\register.css",
+      "PackagePath": "staticwebassets\\css\\register.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\sidebar.css",
+      "PackagePath": "staticwebassets\\css\\sidebar.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\calender.svg",
+      "PackagePath": "staticwebassets\\images\\calender.svg"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\leftArrow.png",
+      "PackagePath": "staticwebassets\\images\\leftArrow.png"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\mgt_leader_icon.png",
+      "PackagePath": "staticwebassets\\images\\mgt_leader_icon.png"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\rightArrow.png",
+      "PackagePath": "staticwebassets\\images\\rightArrow.png"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\images\\selectArrow.png",
+      "PackagePath": "staticwebassets\\images\\selectArrow.png"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\js\\main.js",
+      "PackagePath": "staticwebassets\\js\\main.js"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\js\\register.js",
+      "PackagePath": "staticwebassets\\js\\register.js"
+    },
+    {
+      "Id": "D:\\Code\\SportLeader\\SportLeader\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.SportLeader.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.SportLeader.props",
+      "PackagePath": "build\\SportLeader.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.SportLeader.props",
+      "PackagePath": "buildMultiTargeting\\SportLeader.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.SportLeader.props",
+      "PackagePath": "buildTransitive\\SportLeader.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

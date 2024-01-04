@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Main</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js" asp-append-version="true"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+
+    <header>
+        <div class="header__inner">
+            <div class="header__logo">
+                <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt="전라북도교육청" /></a>
+            </div>
+            <div class="nav">
+                <h4>전라북도교육청 학교운동부지도자 이력 및 지도 실적</h4>
+            </div>
+        </div>
+    </header>
+
+    <aside>
+        <button><img src="~/images/mgt_leader_icon.png" alt="icon" />지도자 관리</button>
+    </aside>
+
+    <div class="renderbody">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <span class="Copyright">
+            <p>&copy; Copyright by HEADIT.All Rights Reserved.</p>
+        </span>
+    </footer>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>
