@@ -1,11 +1,18 @@
-﻿.inner {
+﻿
+.inner {
     width: 1280px;
     height: auto;
     margin: 0 auto;
+    margin-left: 300px;
     margin-bottom: 203px;
     border: 2px solid #EEEEEE;
     border-radius: 5px;
     background-color: #FFFFFF;
+}
+
+#table-container {
+    max-height: 531px;
+    overflow-y: auto;
 }
 
 .container > p {
@@ -249,8 +256,9 @@ select {
     }
 
 .t {
+    width: 480px;
+    margin: 0 auto;
     text-align: center;
-    margin-left: 40px;
     border-collapse: collapse;
 }
 
@@ -460,3 +468,147 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     background-color: #0F2D6A;
     color: #FFFFFF;
 }
+
+
+/* 지도자 식별코드 검색 모달창 */
+.modal-content.modal-custom {
+    width: 560px;
+    height: 980px;
+}
+
+#LeaderNoModal .search_btn {
+    width: 84px;
+    height: 44px;
+    border: 1px solid #0F2D6A;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #0F2D6A;
+}
+
+#LeaderNoModal input {
+    width: 284px;
+    height: 44px;
+    margin-right: 12px;
+    padding-left: 16px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
+
+#LeaderNoModal label {
+    margin-left: 40px;
+    margin-right: 74px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #212529;
+}
+
+#LeaderNoModal .modal-body {
+    padding: 0;
+}
+
+    #LeaderNoModal .modal-body > hr {
+        width: 480px;
+        color: #BDBDBD;
+        margin-top: 12px;
+        margin-bottom: 73px;
+    }
+
+#LeaderNoModal .add_btn {
+    border: 0;
+    background-color: #0F2D6A;
+    color: #FFFFFF;
+}
+
+    #LeaderNoModal .add_btn:hover {
+        border: 1px solid #0F2D6A;
+        background-color: #FFFFFF;
+        color: #0F2D6A;
+    }
+
+
+
+#SchoolNameModal .search_btn {
+    width: 84px;
+    height: 44px;
+    border: 1px solid #0F2D6A;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #0F2D6A;
+}
+
+#SchoolNameModal input {
+    width: 284px;
+    height: 44px;
+    margin-right: 12px;
+    padding-left: 16px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
+
+#SchoolNameModal label {
+    margin-left: 40px;
+    margin-right: 74px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #212529;
+}
+
+#SchoolNameModal .modal-body {
+    padding: 0;
+}
+
+    #SchoolNameModal .modal-body > hr {
+        width: 480px;
+        color: #BDBDBD;
+        margin-top: 12px;
+        margin-bottom: 73px;
+    }
+
+SchoolNameModal .search_btn {
+    width: 84px;
+    height: 44px;
+    border: 1px solid #0F2D6A;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: #0F2D6A;
+}
+
+#SchoolNameModal input {
+    width: 284px;
+    height: 44px;
+    margin-right: 12px;
+    padding-left: 16px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+}
+
+#SchoolNameModal label {
+    margin-left: 40px;
+    margin-right: 74px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #212529;
+}
+
+#SchoolNameModal .modal-body {
+    padding: 0;
+}
+
+    #SchoolNameModal .modal-body > hr {
+        width: 480px;
+        color: #BDBDBD;
+        margin-top: 12px;
+        margin-bottom: 73px;
+    }
+
+#SchoolNameModal .add_btn {
+    border: 0;
+    background-color: #0F2D6A;
+    color: #FFFFFF;
+}
+
+    #SchoolNameModal .add_btn:hover {
+        border: 1px solid #0F2D6A;
+        background-color: #FFFFFF;
+        color: #0F2D6A;
+    }

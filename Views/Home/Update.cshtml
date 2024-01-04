@@ -1,0 +1,197 @@
+﻿@using Newtonsoft.Json;
+@model LeaderInfoDTO
+@{
+    ViewData["Title"] = "leaderUpdate";
+    bool HistoryisFirstRow = true;
+    bool CertificateisFirstRow = true;
+    int hIndex = 0;
+}
+
+<p>지도자 수정하기</p>
+
+<div class="inner">
+    <form action="/Update">
+        <div class="profile">
+            <p>1. 일반 현황(2023년 01월 01일 기준)<small class="requiredFields">* 필수입력값 항목입니다.</small></p>
+            <div class="division-line"></div>
+
+
+            <div class="profile__inner">
+
+                <div class="profile__image">
+                    <div class="profile__imageArea">
+                        <img id="img" src="data:image/png;base64,@Model.LeaderImage"/>
+                        <input type="hidden" id="LeaderImage" name="LeaderImage" value="@Model.LeaderImage"/>
+                        <label class="profile__imageLabel" for="input-image">
+                            <p>사진 첨부하기</p>
+                        </label>
+                        <input type="file" id="input-image" onchange="imageSizeCheck()" style="display: none" />
+                        <input type="hidden" id="image-base" name="LeaderImage" />
+                    </div>
+                    <p>파일 크기는 MB 이하로 등록해주세요.</p>
+                </div>
+
+                <div class="input-wrap">
+
+                    <div class="leaderInfo">
+                        <div class="form-group">
+                            <div class="input__code">
+                                <p>식별코드</p>
+                                <input type="text" id="LeaderNo" name="LeaderNo" value="@Model.LeaderNo" readonly style="background-color: #EEEEEE"/>
+                                <button type="button" onclick="openLeaderModal()" disabled style="background-color: #DDDDDD">식별코드검색</button>
+
+                            </div>
+                            <div class="input__school">
+                                <p>학교명</p>
+                                <input type="text" id="SchoolName" name="SchoolName" value="@Model.SchoolName" placeholder="학교명을 선택해주세요." />
+                                <input type="hidden" id="SchoolNo" name="SchoolNo" value="@Model.SchoolNo" />
+                                <button type="button" onclick="openSchoolModal()">학교명검색</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input__second">
+                        <div class="form-group">
+                            <div>
+                                <p>성명</p>
+                                <input type="text" id="LeaderName" name="LeaderName" value="@Model.LeaderName" placeholder="이름을 입력하세요." required />
+                            </div>
+                            <div class="input__birthday">
+                                <p>생년월일</p>
+                                <input type="date" id="BirthDay" name="BirthDay" value="@Model.Birthday.ToString("yyyy-MM-dd")" data-placeholder="생년월일을 선택해주세요." required aria-required="true" />
+                            </div>
+                            <div class="input__gender">
+                                <p>성별</p>
+                                <input type="radio" name="Gender" value="M" @(Model.Gender == "M" ? "checked" : "") />남자
+                                <input type="radio" name="Gender" value="W" @(Model.Gender == "W" ? "checked" : "") />여자
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input__second">
+                        <div class="form-group">
+                            <div class="input__sports">
+                                <p>종목</p>
+                                <select id="SportsNo" name="SportsNo" class="sports-dropdown"></select>
+                                <input type="hidden" id="Sports" value="@Model.SportsNo" />
+                            </div>
+                            <div class="input__tel">
+                                <p>근무지 전화번호</p>
+                                @{
+                                    string[] telParts = Model.TelNo.Split('-');
+                                }
+                                <input type="tel" name="TelNo" value="@telParts[0]" placeholder="063" maxlength="3" />-
+                                <input type="tel" name="TelNo2" value="@telParts[1]" placeholder="123" maxlength="3" />-
+                                <input type="tel" name="TelNo3" value="@telParts[2]" placeholder="4567" maxlength="4" />
+                            </div>
+
+
+                            <div>
+                                <p>최초채용</p>
+                                <input type="date" id="EmpDT" name="EmpDT" value="@Model.EmpDT.ToString("yyyy-MM-dd")" data-placeholder="최초채용일을 선택해주세요." required aria-required="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="workHistory">
+                <p>2. 근무 이력(전라북도교육청 소속 - 최초 채용일로부터)<small class="requiredFields">* 필수입력값 항목입니다.</small></p>
+                <div class="division-line"></div>
+                <div class="workHistory__info">
+                    <p>&#8251; 현재 근무 중인 경우 근무 종료일을 입력하지 마십시오.</p>
+                    <table id="history_table" class="t">
+                        <thead>
+                            <tr>
+                                <th scope="col">근무기관</th>
+                                <th scope="col">근무시작일</th>
+                                <th scope="col">근무종료일</th>
+                                <th scope="col">종목</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var historyItems in Model.Histories.ToList())
+                            {
+                                <tr>
+                                    <input type="hidden" id="HistoryLeaderNo" name="Histories[@hIndex].LeaderNo" value="@historyItems.LeaderNo" />
+                                    <td><input type="text" id="HistoriesSchoolName" name="Histories[@hIndex].SchoolName" value="@historyItems.SchoolName" placeholder="학교명을 입력해주세요." /></td>
+                                    <td><input type="date" id="HistoriesStartDT" name="Histories[@hIndex].StartDT" value="@historyItems.StartDT.ToString("yyyy-MM-dd")" data-placeholder="근무 시작일을 선택해주세요." required aria-required="true" /></td>
+                                    <td><input type="date" id="HistoriesEndDT" name="Histories[@hIndex].EndDT" value="@historyItems.EndDT?.ToString("yyyy-MM-dd")" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>
+                                    <td>
+                                        <select id="HistoriesSportsNo" name="Histories[@hIndex].SportsNo" class="HistorySports"></select>
+                                        <input type="hidden" name="HistorySports[@hIndex]" value="@historyItems.SportsNo" />
+                                    </td>
+                                    <td>
+                                        @if (HistoryisFirstRow)
+                                        {
+                                            <input type="button" class="add_btn" value="추가" onclick="addWorking()" />
+                                            HistoryisFirstRow = false;
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="delete_btn" value="삭제" onclick="Item_Remove(this)" style="background-color: #969696" />
+                                        }
+                                    </td>
+                                    @{hIndex++;}
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="certificate">
+                <p>3. 자격사항<small class="requiredFields">* 필수입력값 항목입니다.</small></p>
+                <div class="division-line"></div>
+                <div class="certificate__info">
+                    <table id="certificate_table" class="t">
+                        <thead>
+                            <tr>
+                                <th scope="col">자격/면허</th>
+                                <th scope="col">자격번호</th>
+                                <th scope="col">취득일자</th>
+                                <th scope="col">발급기관</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var certificateItems in Model.Certificates.ToList())
+                            {
+                                <tr>
+                                    <input type="hidden" id="CertificateLeaderNo" name="Certificates[0].LeaderNo" value="@certificateItems.LeaderNo" />
+                                    <td><input type="text" name="Certificates[0].CertificateName" value="@certificateItems.CertificateName" placeholder="자격을 입력해주세요." /></td>
+                                    <td><input type="text" name="Certificates[0].CertificateNo" value="@certificateItems.CertificateNo" placeholder="영문, 숫자만 입력해주세요." /></td>
+                                    <td><input type="date" name="Certificates[0].CertificateDT" value="@certificateItems.CertificateDT.ToString("yyyy-MM-dd")" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>
+                                    <td><input type="text" name="Certificates[0].Organization" value="@certificateItems.Organization" placeholder="발급기관을 입력해주세요." /></td>
+                                    <td>
+                                        @if (CertificateisFirstRow)
+                                        {
+                                            <input type="button" class="add_btn" value="추가" onclick="addCertificate()" />
+                                            CertificateisFirstRow = false;
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="delete_btn" value="삭제" onclick="Item_Remove(this)" style="background-color: #969696" />
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="buttons">
+            <button class="cancel_btn" type="button" onclick="cancel_addLeader()">취소하기</button>
+            <button id="UpdateBtn" class="signup_btn" type="button" onclick="updateLeader()">저장하기</button> 
+        </div>
+    </form>
+</div>
+
+
+@await Html.PartialAsync("_LeaderNoModal")
+@section Scripts{
+    <script>
+    </script>
+    <script src="~/js/register.js" asp-append-version="true"></script>
+}

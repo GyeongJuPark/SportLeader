@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SportLeader.Data;
 using SportLeader.DTO;
 using SportLeader.Services;
-using SportLeader.ViewModels;
 
 namespace SportLeader.Controllers
 {
+    //controllerName/actionName
+    [Route("[controller]")]
     public class HomeController : Controller
     {
         private readonly SpotrsLeaderDBContext _context;
@@ -17,33 +19,151 @@ namespace SportLeader.Controllers
             _context = context;
             _sportLeaderService = sportLeaderService;
         }
-        
+
+        [Route("~/")]
+        [Route("~/Home")]
+        [Route("~/Home/Index")]
         public IActionResult Index()
-        {
-            var leaders = _sportLeaderService.GetLeaderList();
-            var leaderDto = leaders.Select(ap => new LeaderDTO
-            {
-                No = ap.LeaderNo,
-                Name = ap.LeaderName
-            });
-
-            var viewModel = new LeaderViewModel
-            {
-                Leaders = leaderDto.ToList(),
-            };
-
-            return View(viewModel);
-        }
-
-
-        public IActionResult Register()
-        {
-            return View();
-        }
-
-        public IActionResult Detail() 
         {
             return View(); 
         }
+
+        [HttpGet("~/Home/Register")]
+        public IActionResult Register()
+        {
+            var model = new LeaderInfoDTO();
+            model.Histories = new List<HistoryDTO>();
+            model.Certificates = new List<CertificateDTO>();
+
+            return View(model);
+        }
+
+        [HttpPost("~/Home/Register")]
+        public IActionResult Register(LeaderInfoDTO leaderInfo)
+        {
+            // 유효성 검사
+            if (ModelState.IsValid)
+            {
+                if (_sportLeaderService.AddLeaderInfo(leaderInfo))
+                {
+                    ModelState.Clear();
+                    return RedirectToAction("Index");
+                }
+            }
+
+            // 이전에 입력한 값들을 유지하기 위해 ModelState를 유지
+            return View(leaderInfo);
+        }
+
+
+
+
+
+        [HttpGet("~/Detail")]
+        public IActionResult Detail([FromQuery] string id)
+        {
+            var leader = _sportLeaderService.Test(id)
+                         .FirstOrDefault(r => r.LeaderNo == id);
+
+            var leaderDTO = new LeaderInfoDTO
+            {
+                LeaderNo = id,
+                LeaderImage = leader.T_LeaderImage.LeaderImage,
+                LeaderName = leader.LeaderName,
+                SchoolNo = leader.T_School.SchoolName,
+                SportsNo = leader.T_Sport.SportsName,
+                Birthday = leader.Birthday,
+                Gender = leader.Gender,
+                TelNo = leader.TelNo,
+                EmpDT = leader.EmpDT,
+
+                Histories = leader.T_History
+                    .Select(history => new HistoryDTO
+                    {
+                        SchoolName = history.SchoolName,
+                        StartDT = history.StartDT,
+                        EndDT = history.EndDT,
+                        SportsNo = history.T_Sport.SportsName
+                    }),
+
+                Certificates = leader.T_Certificate
+                    .Select(certificate => new CertificateDTO
+                    {
+                        CertificateName = certificate.CertificateName,
+                        CertificateNo = certificate.CertificateNo,
+                        CertificateDT = certificate.CertificateDT,
+                        Organization = certificate.Organization
+                    }),
+            };
+
+            return View(leaderDTO);
+        }
+
+        // 삭제 컨트롤러
+        [HttpDelete("~/Home")]
+        public IActionResult Delete([FromBody] string[] leaderNos)
+        {
+            _sportLeaderService.DeleteSample(leaderNos);
+
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpGet("~/Update")]
+        public IActionResult Update([FromQuery] string id)
+        {
+            var leader = _sportLeaderService.Test(id)
+                                     .FirstOrDefault(r => r.LeaderNo == id);
+
+            var leaderDTO = new LeaderInfoDTO
+            {
+                LeaderNo = id,
+                LeaderImage = leader.T_LeaderImage.LeaderImage,
+                LeaderName = leader.LeaderName,
+                SchoolNo = leader.T_School.SchoolNo,
+                SchoolName = leader.T_School.SchoolName,
+                SportsNo = leader.SportsNo,
+                Birthday = leader.Birthday,
+                Gender = leader.Gender,
+                TelNo = leader.TelNo,
+                EmpDT = leader.EmpDT,
+
+                Histories = leader.T_History
+                    .Select(history => new HistoryDTO
+                    {
+                        LeaderNo = leader.LeaderNo,
+                        SchoolName = history.SchoolName,
+                        StartDT = history.StartDT,
+                        EndDT = history.EndDT,
+                        SportsNo = history.SportsNo
+                    }),
+
+                Certificates = leader.T_Certificate
+                    .Select(certificate => new CertificateDTO
+                    {
+                        LeaderNo = leader.LeaderNo,
+                        CertificateName = certificate.CertificateName,
+                        CertificateNo = certificate.CertificateNo,
+                        CertificateDT = certificate.CertificateDT,
+                        Organization = certificate.Organization
+                    }),
+            };
+
+            return View(leaderDTO);
+        }
+
+        [HttpPatch("~/Update")]
+        public IActionResult Update(LeaderInfoDTO model)
+        {
+            if (ModelState.IsValid)
+            {
+                _sportLeaderService.Update(model);
+                ModelState.Clear();
+                return RedirectToAction("Detail", "Home");
+            }
+            return View(model);
+        }
+
+
     }
 }

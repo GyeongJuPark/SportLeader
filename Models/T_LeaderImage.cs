@@ -5,9 +5,7 @@ namespace SportLeader.Models
 {
     public class T_LeaderImage
     {
-        [ForeignKey("T_LeaderWorkInfo")]
-        public int LeaderSequence { get; set; }
-        public byte[]  LeaderImage { get; set;}
-        public T_LeaderWorkInfo T_LeaderWorkInfo { get; set; }
+        public string LeaderNo { get; set; }
+        public string  LeaderImage { get; set;}
     }
 }

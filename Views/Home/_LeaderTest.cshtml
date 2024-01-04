@@ -1,0 +1,19 @@
+﻿@model List<LeaderInfoDTO>
+@{
+    var index = 1;
+}
+@foreach (var leaderList in Model)
+{
+    <tr>
+        <td><input type="checkbox" value="@leaderList.LeaderNo" class='rowCheckbox' onchange="btnToggleDelete()" /></td>
+        <td>@index</td>
+        <td>@leaderList.LeaderNo</td>
+        <td>@leaderList.LeaderName</td>
+        <td>@leaderList.SportsNo</td>
+        <td>@leaderList.SchoolNo</td>
+        <td><input type='button' onclick='MoveDetailPage("@leaderList.LeaderNo")' value='상세보기' /></td>
+        @{
+            index++;
+        }
+    </tr>
+}

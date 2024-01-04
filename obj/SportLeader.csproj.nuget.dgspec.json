@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Code\\SportLeader\\SportLeader\\SportLeader.csproj": {}
+    "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\SportLeader.csproj": {}
   },
   "projects": {
-    "D:\\Code\\SportLeader\\SportLeader\\SportLeader.csproj": {
+    "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\SportLeader.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Code\\SportLeader\\SportLeader\\SportLeader.csproj",
+        "projectUniqueName": "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\SportLeader.csproj",
         "projectName": "SportLeader",
-        "projectPath": "D:\\Code\\SportLeader\\SportLeader\\SportLeader.csproj",
+        "projectPath": "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\SportLeader.csproj",
         "packagesPath": "C:\\Users\\HeadIT\\.nuget\\packages\\",
-        "outputPath": "D:\\Code\\SportLeader\\SportLeader\\obj\\",
+        "outputPath": "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\HeadIT\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -57,6 +57,10 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[6.0.25, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             }
           },
           "imports": [
