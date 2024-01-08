@@ -197,7 +197,7 @@ function addWorking() {
         var HistoryEndDT = HistoryRow.find('input[name^="Histories["][name$="].EndDT"]').val();
         var HistorySportsNo = HistoryRow.find('select[name^="Histories["][name$="].SportsNo"]').val();
 
-        if (!HistorySchoolName || !HistoryStartDT || !HistoryEndDT || !HistorySportsNo || dynamicStartDT > dynamicEndDT) {
+        if (!HistorySchoolName || !HistoryStartDT || !HistoryEndDT || !HistorySportsNo || HistoryStartDT > HistoryEndDT) {
             alert("모든 항목을 입력하고, 근무시작일보다 근무종료일이 빠를 수 없습니다.");
             return;
         }
@@ -289,45 +289,45 @@ function validation() {
     var checkCertificateNumber = /^[a-zA-Z0-9]+$/;
     var checkCertificateName = /^[가-힣a-zA-Z0-9]+$/;
 
-    //if (!checkLeaderNo.test(leaderNo)) {
-    //    console.warn("식별코드를 입력하세요.");
-    //    return false;
-    //}
+    if (!checkLeaderNo.test(leaderNo)) {
+        console.warn("식별코드를 입력하세요.");
+        return false;
+    }
 
-    //if (!checkSchoolNo.test(schoolNo)) {
-    //    console.warn("학교명을 입력하세요.");
-    //    return false;
-    //}
+    if (!checkSchoolNo.test(schoolNo)) {
+        console.warn("학교명을 입력하세요.");
+        return false;
+    }
 
-    //if (!check.test(leaderName)) {
-    //    console.warn("성명을 입력하세요.");
-    //    return false;
-    //}
+    if (!check.test(leaderName)) {
+        console.warn("성명을 입력하세요.");
+        return false;
+    }
 
-    //if (!checkDate.test(birthday)) {
-    //    console.warn("생년월일을 입력하세요.");
-    //    return false;
-    //}
+    if (!checkDate.test(birthday)) {
+        console.warn("생년월일을 입력하세요.");
+        return false;
+    }
 
-    //if (gender.length === 0) {
-    //    console.warn("성별을 선택하세요.");
-    //    return false;
-    //}
+    if (gender.length === 0) {
+        console.warn("성별을 선택하세요.");
+        return false;
+    }
 
-    //if (!sportsNo) {
-    //    console.warn("종목을 선택하세요.");
-    //    return false;
-    //}
+    if (!sportsNo) {
+        console.warn("종목을 선택하세요.");
+        return false;
+    }
 
-    //if (!checkTelNo.test(telNo1) || !checkTelNo.test(telNo2) || !/^[0-9]{4}$/.test(telNo3)) {
-    //    console.warn("근무지 전화번호를 입력하세요.\n(올바른 전화번호 형식이 아닙니다.(063-123-4567))");
-    //    return false;
-    //}
+    if (!checkTelNo.test(telNo1) || !checkTelNo.test(telNo2) || !/^[0-9]{4}$/.test(telNo3)) {
+        console.warn("근무지 전화번호를 입력하세요.\n(올바른 전화번호 형식이 아닙니다.(063-123-4567))");
+        return false;
+    }
 
-    //if (!checkDate.test(empDT)) {
-    //    console.warn("최초채용일을 선택하세요.");
-    //    return false;
-    //}
+    if (!checkDate.test(empDT)) {
+        console.warn("최초채용일을 선택하세요.");
+        return false;
+    }
 
     if (!check.test(historySchoolName)) {
         console.log(historySchoolName);
