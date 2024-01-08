@@ -20,8 +20,8 @@
 
                 <div class="profile__image">
                     <div class="profile__imageArea">
-                        <img id="img" src="data:image/png;base64,@Model.LeaderImage"/>
-                        <input type="hidden" id="LeaderImage" name="LeaderImage" value="@Model.LeaderImage"/>
+                        <img id="img" src="data:image/png;base64,@Model.LeaderImage" />
+                        <input type="hidden" id="LeaderImage" name="LeaderImage" value="@Model.LeaderImage" />
                         <label class="profile__imageLabel" for="input-image">
                             <p>사진 첨부하기</p>
                         </label>
@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <div class="input__code">
                                 <p>식별코드</p>
-                                <input type="text" id="LeaderNo" name="LeaderNo" value="@Model.LeaderNo" readonly style="background-color: #EEEEEE"/>
+                                <input type="text" id="LeaderNo" name="LeaderNo" value="@Model.LeaderNo" readonly style="background-color: #EEEEEE" />
                                 <button type="button" onclick="openLeaderModal()" disabled style="background-color: #DDDDDD">식별코드검색</button>
 
                             </div>
@@ -95,6 +95,13 @@
                                     <input type="tel" name="TelNo" asp-for="@Model.TelNo" placeholder="063" maxlength="3" />
                                     <input type="tel" name="TelNo2" asp-for="@Model.TelNo2" placeholder="123" maxlength="3" />
                                     <input type="tel" name="TelNo3" asp-for="@Model.TelNo3" placeholder="4567" maxlength="4" />
+
+                                    <br />
+                                    <span asp-validation-for="@Model.TelNo" class="text-danger"></span>
+                                    <br />
+                                    <span asp-validation-for="@Model.TelNo2" class="text-danger"></span>
+                                    <br />
+                                    <span asp-validation-for="@Model.TelNo3" class="text-danger"></span>
                                 }
 
                             </div>
@@ -125,16 +132,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var historyItems in Model.Histories.ToList())
+                            @foreach (var historyItems in Model.Histories)
                             {
                                 <tr>
                                     <input type="hidden" id="HistoryLeaderNo" name="Histories[@hIndex].LeaderNo" asp-for="@historyItems.LeaderNo" />
-                                    <td><input type="text" id="HistoriesSchoolName" name="Histories[@hIndex].SchoolName" asp-for="@historyItems.SchoolName" placeholder="학교명을 입력해주세요." /></td>
-                                    <span asp-validation-for="@historyItems.SchoolName" class="text-danger"></span>
+                                    <td>
+                                        <input type="text" id="HistoriesSchoolName" name="Histories[@hIndex].SchoolName" asp-for="@historyItems.SchoolName" placeholder="학교명을 입력해주세요." />
+                                        </td>
+                                    
                                     <td><input type="date" id="HistoriesStartDT" name="Histories[@hIndex].StartDT" asp-for="@historyItems.StartDT" data-placeholder="근무 시작일을 선택해주세요." required aria-required="true" /></td>
-                                    <span asp-validation-for="@historyItems.StartDT" class="text-danger"></span>
                                     <td><input type="date" id="HistoriesEndDT" name="Histories[@hIndex].EndDT" asp-for="@historyItems.EndDT" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>
-                                    <span asp-validation-for="@historyItems.EndDT" class="text-danger"></span>
                                     <td>
                                         <select id="HistoriesSportsNo" name="Histories[@hIndex].SportsNo" class="HistorySports"></select>
                                         <input type="hidden" name="HistorySports[@hIndex]" value="@historyItems.SportsNo" />
@@ -150,7 +157,9 @@
                                             <input type="button" class="delete_btn" value="삭제" onclick="Item_Remove(this)" style="background-color: #969696" />
                                         }
                                     </td>
-                                    @{hIndex++;}
+                                    @{
+                                        hIndex++;
+                                    }
                                 </tr>
                             }
                         </tbody>
@@ -173,18 +182,14 @@
                         </thead>
 
                         <tbody>
-                            @foreach (var certificateItems in Model.Certificates.ToList())
+                            @foreach (var certificateItems in Model.Certificates)
                             {
                                 <tr>
                                     <input type="hidden" id="CertificateLeaderNo" name="Certificates[0].LeaderNo" asp-for="@certificateItems.LeaderNo" />
                                     <td><input type="text" name="Certificates[0].CertificateName" asp-for="@certificateItems.CertificateName" placeholder="자격을 입력해주세요." /></td>
-                                    <span asp-validation-for="@certificateItems.CertificateName" class="text-danger"></span>
                                     <td><input type="text" name="Certificates[0].CertificateNo" asp-for="@certificateItems.CertificateNo" placeholder="영문, 숫자만 입력해주세요." /></td>
-                                    <span asp-validation-for="@certificateItems.CertificateNo" class="text-danger"></span>
                                     <td><input type="date" name="Certificates[0].CertificateDT" asp-for="@certificateItems.CertificateDT" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>
-                                    <span asp-validation-for="@certificateItems.CertificateDT" class="text-danger"></span>
                                     <td><input type="text" name="Certificates[0].Organization" asp-for="@certificateItems.Organization" placeholder="발급기관을 입력해주세요." /></td>
-                                    <span asp-validation-for="@certificateItems.Organization" class="text-danger"></span>
                                     <td>
                                         @if (CertificateisFirstRow)
                                         {
@@ -205,14 +210,14 @@
         </div>
         <div class="buttons">
             <button class="cancel_btn" type="button" onclick="cancel_addLeader()">취소하기</button>
-            <button id="UpdateBtn" class="signup_btn" type="button" onclick="updateLeader()">저장하기</button> 
+            <button id="UpdateBtn" class="signup_btn" type="button" onclick="updateLeader()">저장하기</button>
         </div>
     </form>
 </div>
 
 
 @await Html.PartialAsync("_LeaderNoModal")
-@section Scripts{
+@section Scripts {
     <script>
     </script>
     <script src="~/js/register.js" asp-append-version="true"></script>

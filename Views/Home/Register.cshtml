@@ -92,15 +92,16 @@
                                     <select asp-for="@Model.SportsNo" class="sports-dropdown">
                                         <option value="@Model.SportsNo" disabled selected>종목을 선택해주세요</option>
                                     </select>
+                                    <span asp-validation-for="@Model.SportsNo" class="text-danger"></span>
                                     <input type="hidden" id="TestSports" value="@Model.SportsNo" />
                                 </div>
                                 <div class="input__tel">
                                     <p>근무지 전화번호</p>
                                     <input type="tel" asp-for="@Model.TelNo" placeholder="063" maxlength="3" />-
-                                    <span asp-validation-for="@Model.TelNo" class="text-danger"></span>
                                     <input type="tel" asp-for="@Model.TelNo2" placeholder="123" maxlength="3" />-
+                                    <input type="tel" asp-for="@Model.TelNo3" placeholder="4567" maxlength="4" /><br />
+                                    <span asp-validation-for="@Model.TelNo" class="text-danger"></span>
                                     <span asp-validation-for="@Model.TelNo2" class="text-danger"></span>
-                                    <input type="tel" asp-for="@Model.TelNo3" placeholder="4567" maxlength="4" />
                                     <span asp-validation-for="@Model.TelNo3" class="text-danger"></span>
                                 </div>
                                 <div>
@@ -113,6 +114,7 @@
                                     {
                                         <input type="date" asp-for="@Model.EmpDT" value="" data-placeholder="최초채용일을 선택해주세요." required aria-required="true" />
                                     }
+                                    <br />
                                     <span asp-validation-for="@Model.EmpDT" class="text-danger"></span>
                                 </div>
                             </div>
@@ -203,10 +205,15 @@
                                         {
                                         <tr>
                                             <input type="hidden" name="Certificates[0].LeaderNo" asp-for="@certificatesItem.LeaderNo" />
+                                            <span asp-validation-for="@certificatesItem.LeaderNo" class="text-danger"></span>
                                             <td><input type="text" name="Certificates[0].CertificateName" asp-for="@certificatesItem.CertificateName" placeholder="자격을 입력해주세요." /></td>
+                                            <span asp-validation-for="@certificatesItem.CertificateName" class="text-danger"></span>
                                             <td><input type="text" name="Certificates[0].CertificateNo" asp-for="@certificatesItem.CertificateNo" placeholder="영문, 숫자만 입력해주세요." /></td>
+                                            <span asp-validation-for="@certificatesItem.CertificateNo" class="text-danger"></span>
                                             <td><input type="date" name="Certificates[0].CertificateDT" asp-for="@certificatesItem.CertificateDT" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>
+                                            <span asp-validation-for="@certificatesItem.CertificateDT" class="text-danger"></span>
                                             <td><input type="text" name="Certificates[0].Organization" asp-for="@certificatesItem.Organization" placeholder="발급기관을 입력해주세요." /></td>
+                                            <span asp-validation-for="@certificatesItem.Organization" class="text-danger"></span>
                                             <td><input type="button" class="add_btn" value="추가" onclick="addCertificate()" /></td>
                                         </tr>
                                         }

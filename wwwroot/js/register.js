@@ -200,7 +200,8 @@ function addWorking() {
         if (!HistorySchoolName || !HistoryStartDT || !HistoryEndDT || !HistorySportsNo || HistoryStartDT > HistoryEndDT) {
             alert("모든 항목을 입력하고, 근무시작일보다 근무종료일이 빠를 수 없습니다.");
             return;
-        }
+        } 
+        
     }
 
     var row = '<tr>';
