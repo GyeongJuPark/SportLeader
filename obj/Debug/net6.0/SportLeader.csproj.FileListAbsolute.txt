@@ -214,3 +214,4 @@ C:\Users\HeadIT\Downloads\2024-01-01\2024-01-01\SportLeader\SportLeader\obj\Debu
 C:\Users\HeadIT\Downloads\2024-01-01\2024-01-01\SportLeader\SportLeader\obj\Debug\net6.0\SportLeader.pdb
 C:\Users\HeadIT\Downloads\2024-01-01\2024-01-01\SportLeader\SportLeader\obj\Debug\net6.0\SportLeader.genruntimeconfig.cache
 C:\Users\HeadIT\Downloads\2024-01-01\2024-01-01\SportLeader\SportLeader\obj\Debug\net6.0\ref\SportLeader.dll
+C:\Users\HeadIT\Downloads\2024-01-01\2024-01-01\SportLeader\SportLeader\obj\Debug\net6.0\SportLeader.sourcelink.json

@@ -23,13 +23,21 @@ namespace SportLeader
             var app = builder.Build();
 
             app.UseStaticFiles();
-
-            app.UseMvc(routes =>
+            //app.UseMvc(routes =>
+            //{
+            //    routes.MapRoute(
+            //        name: "default",
+            //        template: "{controller=Home}/{action=Index}/{LeaderNo?}");
+            //});
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{LeaderNo?}");
-        });
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+
 
             app.Run();
         }

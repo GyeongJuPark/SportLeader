@@ -130,7 +130,7 @@ function deleteSelectedLeaders() {
 
     if (selectedLeaderNos.length > 0) {
         $.ajax({
-            url: '/Home',
+            url: '/Home/Delete',
             type: 'DELETE',
             contentType: 'application/json',
             data: JSON.stringify(selectedLeaderNos),
@@ -181,7 +181,7 @@ function calculateTotalPages(totalItems, itemsPerPage) {
 function allLeaderList() {
     $.ajax({
         type: "GET",
-        url: "/api/GetAllList",
+        url: "/api/alls",
         dataType: "json",
 
         success: function (data) {

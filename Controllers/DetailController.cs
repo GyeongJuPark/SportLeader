@@ -2,13 +2,14 @@
 
 namespace SportLeader.Controllers
 {
-    [Route("detail1")]
+    [Route("[controller]")]
     public class DetailController : Controller
     {
         [HttpGet("")]
         public IActionResult Index()
         {
-            return RedirectToAction("Detail", "Home", new { id="JB19-002"});
+            return Ok($"DetailController Index Action, Id:");
+            //return RedirectToAction("Detail", "Home", new { id="JB19-002"});
         }
     }
 }
