@@ -7,11 +7,11 @@ namespace SportLeader.Controllers
 {
     [ApiController]
     [Route("api/schools")]
-    public class SchoolAPIController : ControllerBase
+    public class SchoolApiController : ControllerBase
     {
         private readonly ISportLeaderService _sportLeaderService;
 
-        public SchoolAPIController(ISportLeaderService sportLeaderService)
+        public SchoolApiController(ISportLeaderService sportLeaderService)
         {
             _sportLeaderService = sportLeaderService;
         }

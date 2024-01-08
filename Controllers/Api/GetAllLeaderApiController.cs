@@ -1,17 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SportLeader.Data;
 using SportLeader.DTO;
 using SportLeader.Services;
 
-namespace SportLeader.Controllers
+namespace SportLeader.Controllers.Api
 {
     [ApiController]
     [Route("api/alls")]
-    public class GetAllLeaderAPIController : ControllerBase
+    public class GetAllLeaderApiController : ControllerBase
     {
         private readonly ISportLeaderService _sportLeaderService;
 
-        public GetAllLeaderAPIController(ISportLeaderService sportLeaderService)
+        public GetAllLeaderApiController(ISportLeaderService sportLeaderService)
         {
             _sportLeaderService = sportLeaderService;
         }
@@ -20,7 +19,7 @@ namespace SportLeader.Controllers
         public IActionResult GetAllList()
         {
             var allLeaders = _sportLeaderService.GetAllList();
-            var LeaderListDTO = new List<LeaderInfoDTO>();
+            var leaderListDto = new List<LeaderInfoDTO>();
             foreach (var leader in allLeaders)
             {
                 var dto = new LeaderInfoDTO()
@@ -30,9 +29,9 @@ namespace SportLeader.Controllers
                     SchoolNo = leader.T_School.SchoolName,
                     SportsNo = leader.T_Sport.SportsName,
                 };
-                LeaderListDTO.Add(dto);
+                leaderListDto.Add(dto);
             }
-            return Ok(LeaderListDTO);
+            return Ok(leaderListDto);
         }
     }
 }

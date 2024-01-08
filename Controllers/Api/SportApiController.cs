@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SportLeader.Data;
 using SportLeader.DTO;
 using SportLeader.Services;
 
-namespace SportLeader.Controllers
+namespace SportLeader.Controllers.Api
 {
     [ApiController]
     [Route("api/sports")]
