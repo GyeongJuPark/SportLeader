@@ -191,13 +191,13 @@ function addWorking() {
     loadSports();
     var addRows = $("#history_table tbody tr");
     for (var i = 0; i < addRows.length; i++) {
-        var dynamicRow = addRows.eq(i);
-        var dynamicSchoolName = dynamicRow.find('input[name^="Histories["][name$="].SchoolName"]').val();
-        var dynamicStartDT = dynamicRow.find('input[name^="Histories["][name$="].StartDT"]').val();
-        var dynamicEndDT = dynamicRow.find('input[name^="Histories["][name$="].EndDT"]').val();
-        var dynamicSportsNo = dynamicRow.find('select[name^="Histories["][name$="].SportsNo"]').val();
+        var HistoryRow = addRows.eq(i);
+        var HistorySchoolName = HistoryRow.find('input[name^="Histories["][name$="].SchoolName"]').val();
+        var HistoryStartDT = HistoryRow.find('input[name^="Histories["][name$="].StartDT"]').val();
+        var HistoryEndDT = HistoryRow.find('input[name^="Histories["][name$="].EndDT"]').val();
+        var HistorySportsNo = HistoryRow.find('select[name^="Histories["][name$="].SportsNo"]').val();
 
-        if (!dynamicSchoolName || !dynamicStartDT || !dynamicEndDT || !dynamicSportsNo || dynamicStartDT > dynamicEndDT) {
+        if (!HistorySchoolName || !HistoryStartDT || !HistoryEndDT || !HistorySportsNo || dynamicStartDT > dynamicEndDT) {
             alert("모든 항목을 입력하고, 근무시작일보다 근무종료일이 빠를 수 없습니다.");
             return;
         }
@@ -232,11 +232,11 @@ function addCertificate() {
 
 // 등록하기 - POST
 function addLeaderData() {
-    //if (validation()) {
-    //    validAfterModal();
-    //} else {
-    //    openShortModal('필수입력값 확인', '필수입력값이 채워지지 않았습니다.<br>확인 후 채워주시기 바랍니다.');
-    //}
+    if (validation()) {
+        validAfterModal();
+    } else {
+        openShortModal('필수입력값 확인', '필수입력값이 채워지지 않았습니다.<br>확인 후 채워주시기 바랍니다.');
+    }
     validAfterModal();
 
 }
@@ -258,120 +258,120 @@ function submitForm() {
 
 
 // 유효성 검사
-//function validation() {
-//    // 일반현황
-//    var leaderNo = $('#LeaderNo').val();
-//    var schoolNo = $('#SchoolNo').val();
-//    var leaderName = $('#LeaderName').val();
-//    var birthday = $('#BirthDay').val();
-//    var gender = $("input[name='Gender']:checked");
-//    var sportsNo = $('#SportsNo').val();
-//    var telNo1 = $("#TelNo").val();
-//    var telNo2 = $("#TelNo2").val();
-//    var telNo3 = $("#TelNo3").val();
-//    var empDT = $('#EmpDT').val()
-//    // 근무이력
-//    var historySchoolName = $('#HistoriesSchoolName').val();
-//    var historyStartDT = $('#HistoriesStartDT').val();
-//    var historyEndDT = $('#HistoriesEndDT').val();
-//    var historySportsNo = $('#HistoriesSportsNo').val();
-//    // 자격사항
-//    var certificateName = $('#CertificatesCertificateName').val();
-//    var certificateNumber = $('#CertificatesCertificateNo').val();
-//    var certificateDT = $('#CertificatesCertificateDT').val();
-//    var organization = $('#CertificatesOrganization').val();
+function validation() {
+    // 일반현황
+    var leaderNo = $('#LeaderNo').val();
+    var schoolNo = $('#SchoolNo').val();
+    var leaderName = $('#LeaderName').val();
+    var birthday = $('#BirthDay').val();
+    var gender = $("input[name='Gender']:checked");
+    var sportsNo = $('#SportsNo').val();
+    var telNo1 = $("#TelNo").val();
+    var telNo2 = $("#TelNo2").val();
+    var telNo3 = $("#TelNo3").val();
+    var empDT = $('#EmpDT').val()
+    // 근무이력
+    var historySchoolName = $('#HistoriesSchoolName').val();
+    var historyStartDT = $('#HistoriesStartDT').val();
+    var historyEndDT = $('#HistoriesEndDT').val();
+    var historySportsNo = $('#HistoriesSportsNo').val();
+    // 자격사항
+    var certificateName = $('#CertificatesCertificateName').val();
+    var certificateNumber = $('#CertificatesCertificateNo').val();
+    var certificateDT = $('#CertificatesCertificateDT').val();
+    var organization = $('#CertificatesOrganization').val();
 
-//    var check = /^[가-힣a-zA-Z]+$/
-//    var checkDate = /^[0-9]{4}[-]+[0-9]{2}[-]+[0-9]{2}$/;
-//    var checkTelNo = /^[0-9]{3}$/;
-//    var checkLeaderNo = /^JB[0-9]{2}[-]+[0-9]{3}$/;
-//    var checkSchoolNo = /^SC[0-9]{4}$/;
-//    var checkCertificateNumber = /^[a-zA-Z0-9]+$/;
-//    var checkCertificateName = /^[가-힣a-zA-Z0-9]+$/;
+    var check = /^[가-힣a-zA-Z]+$/
+    var checkDate = /^[0-9]{4}[-]+[0-9]{2}[-]+[0-9]{2}$/;
+    var checkTelNo = /^[0-9]{3}$/;
+    var checkLeaderNo = /^JB[0-9]{2}[-]+[0-9]{3}$/;
+    var checkSchoolNo = /^SC[0-9]{4}$/;
+    var checkCertificateNumber = /^[a-zA-Z0-9]+$/;
+    var checkCertificateName = /^[가-힣a-zA-Z0-9]+$/;
 
-//    //if (!checkLeaderNo.test(leaderNo)) {
-//    //    console.warn("식별코드를 입력하세요.");
-//    //    return false;
-//    //}
+    //if (!checkLeaderNo.test(leaderNo)) {
+    //    console.warn("식별코드를 입력하세요.");
+    //    return false;
+    //}
 
-//    //if (!checkSchoolNo.test(schoolNo)) {
-//    //    console.warn("학교명을 입력하세요.");
-//    //    return false;
-//    //}
+    //if (!checkSchoolNo.test(schoolNo)) {
+    //    console.warn("학교명을 입력하세요.");
+    //    return false;
+    //}
 
-//    //if (!check.test(leaderName)) {
-//    //    console.warn("성명을 입력하세요.");
-//    //    return false;
-//    //}
+    //if (!check.test(leaderName)) {
+    //    console.warn("성명을 입력하세요.");
+    //    return false;
+    //}
 
-//    //if (!checkDate.test(birthday)) {
-//    //    console.warn("생년월일을 입력하세요.");
-//    //    return false;
-//    //}
+    //if (!checkDate.test(birthday)) {
+    //    console.warn("생년월일을 입력하세요.");
+    //    return false;
+    //}
 
-//    //if (gender.length === 0) {
-//    //    console.warn("성별을 선택하세요.");
-//    //    return false;
-//    //}
+    //if (gender.length === 0) {
+    //    console.warn("성별을 선택하세요.");
+    //    return false;
+    //}
 
-//    //if (!sportsNo) {
-//    //    console.warn("종목을 선택하세요.");
-//    //    return false;
-//    //}
+    //if (!sportsNo) {
+    //    console.warn("종목을 선택하세요.");
+    //    return false;
+    //}
 
-//    //if (!checkTelNo.test(telNo1) || !checkTelNo.test(telNo2) || !/^[0-9]{4}$/.test(telNo3)) {
-//    //    console.warn("근무지 전화번호를 입력하세요.\n(올바른 전화번호 형식이 아닙니다.(063-123-4567))");
-//    //    return false;
-//    //}
+    //if (!checkTelNo.test(telNo1) || !checkTelNo.test(telNo2) || !/^[0-9]{4}$/.test(telNo3)) {
+    //    console.warn("근무지 전화번호를 입력하세요.\n(올바른 전화번호 형식이 아닙니다.(063-123-4567))");
+    //    return false;
+    //}
 
-//    //if (!checkDate.test(empDT)) {
-//    //    console.warn("최초채용일을 선택하세요.");
-//    //    return false;
-//    //}
+    //if (!checkDate.test(empDT)) {
+    //    console.warn("최초채용일을 선택하세요.");
+    //    return false;
+    //}
 
-//    if (!check.test(historySchoolName)) {
-//        console.log(historySchoolName);
-//        console.warn("근무기관을 입력하세요.");
-//        return false;
-//    }
+    if (!check.test(historySchoolName)) {
+        console.log(historySchoolName);
+        console.warn("근무기관을 입력하세요.");
+        return false;
+    }
 
-//    if (!checkDate.test(historyStartDT)) {
-//        console.warn("근무시작일을 입력하세요.");
-//        return false;
-//    }
+    if (!checkDate.test(historyStartDT)) {
+        console.warn("근무시작일을 입력하세요.");
+        return false;
+    }
 
-//    if (!checkDate.test(historyEndDT)) {
-//        console.warn("근무종료일을 입력하세요.");
-//        return false;
-//    }
+    if (!checkDate.test(historyEndDT)) {
+        console.warn("근무종료일을 입력하세요.");
+        return false;
+    }
 
-//    if (!historySportsNo) {
-//        console.warn("근무종목을 선택하세요.");
-//        return false;
-//    }
+    if (!historySportsNo) {
+        console.warn("근무종목을 선택하세요.");
+        return false;
+    }
 
-//    if (!checkCertificateName.test(certificateName)) {
-//        console.warn("자격/면허를 입력하세요.");
-//        return false;
-//    }
+    if (!checkCertificateName.test(certificateName)) {
+        console.warn("자격/면허를 입력하세요.");
+        return false;
+    }
 
-//    if (!checkCertificateNumber.test(certificateNumber)) {
-//        console.warn("자격번호를 입력하세요.\n(영문, 숫자만 입력해주세요.)");
-//        return false;
-//    }
+    if (!checkCertificateNumber.test(certificateNumber)) {
+        console.warn("자격번호를 입력하세요.\n(영문, 숫자만 입력해주세요.)");
+        return false;
+    }
 
-//    if (!checkDate.test(certificateDT)) {
-//        console.warn("취득일자를 선택하세요.");
-//        return false;
-//    }
+    if (!checkDate.test(certificateDT)) {
+        console.warn("취득일자를 선택하세요.");
+        return false;
+    }
 
-//    if (!check.test(organization)) {
-//        console.warn("발급기관을 입력하세요.");
-//        return false;
-//    }
+    if (!check.test(organization)) {
+        console.warn("발급기관을 입력하세요.");
+        return false;
+    }
 
-//    return true;
-//}
+    return true;
+}
 
 function loadSports() {
     $.ajax({
@@ -465,21 +465,7 @@ function loadModalTable(url, tbodySelector, modalId) {
 }
 
 function updateLeader() {
-    //var formData = $('form').serialize();
     var form = $('form');
     form.submit();
-    
-    //$.ajax({
-    //    url: 'Update',
-    //    type: 'PATCH',
-    //    contentType: 'multipart/form-data',
-    //    data: formData,
-    //    success: function () {
-    //        console.log("수정 성공");
-    //    },
-    //    error: function (error) {
-    //        console.error('수정 실패:', error);
-    //    }
-    //});
 }
 
