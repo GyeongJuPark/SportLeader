@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json.Serialization;
+using System.ComponentModel.DataAnnotations;
 namespace SportLeader.DTO
 {
     public class LeaderImageDTO
@@ -56,15 +57,15 @@ namespace SportLeader.DTO
         public string SchoolName { get; set; }
 
         [Required]
-        [RegularExpression("[0-9]{3}$")]
+        [RegularExpression("[0-9]{3}$", ErrorMessage = "전화번호를 제대로 입력해주세요.(예시 : 063-123-1234)")]
         public string TelNo { get; set; }
 
         [Required]
-        [RegularExpression("[0-9]{3}$")]
+        [RegularExpression("[0-9]{3}$", ErrorMessage = "전화번호를 제대로 입력해주세요.(예시 : 063-123-1234)")]
         public string TelNo2 { get; set; }
 
         [Required]
-        [RegularExpression("[0-9]{4}$")]
+        [RegularExpression("[0-9]{4}$", ErrorMessage = "전화번호를 제대로 입력해주세요.(예시 : 063-123-1234)")]
         public string TelNo3 { get; set; }
 
         [Required(ErrorMessage = "최초채용일을 선택해주세요.")]
