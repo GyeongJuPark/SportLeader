@@ -17,8 +17,7 @@ namespace SportLeader.Services
         IEnumerable<T_LeaderWorkInfo> Test(string LeaderNO);
         bool AddLeaderInfo(LeaderInfoDTO LeaderWorkInfo);
         void Save();
-        void Delete(LeaderInfoDTO leaderInfoDTO);
-        void DeleteSample(string[] leaderinfoDTO);
+        void Delete(string[] leaderinfoDTO);
         bool Update(LeaderInfoDTO leaderInfoDTO);
     }
 
@@ -160,31 +159,7 @@ namespace SportLeader.Services
             _dBContext.T_Certificate.Add(t_certificate);
         }
 
-        // 삭제
-        public void Delete(LeaderInfoDTO leaderinfoDTO)
-        {
-            var leaderNosArray = leaderinfoDTO.LeaderNo.Split(',');
-            // [1,2,3,4,5];
-
-
-            foreach (var leaderNo in leaderNosArray)
-            {
-                var DeleteEntity = _dBContext.T_LeaderWorkInfo
-                    .Include(lw => lw.T_History)
-                    .Include(lw => lw.T_Certificate)
-                    .Include(lw => lw.T_LeaderImage)
-                    .FirstOrDefault(lw => lw.LeaderNo == leaderNo);
-
-                if (DeleteEntity != null)
-                {
-                    _dBContext.Remove(DeleteEntity);
-                }
-            }
-
-            _dBContext.SaveChanges();
-        }
-
-        public void DeleteSample(string[] leaderNos)
+        public void Delete(string[] leaderNos)
         {
             //1.넘어온 값이 실제로 db에 있는지 체크
 
