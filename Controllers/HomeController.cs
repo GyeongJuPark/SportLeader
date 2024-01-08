@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SportLeader.Data;
 using SportLeader.DTO;
 using SportLeader.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SportLeader.Controllers
 {
-    //controllerName/actionName
+    [Route("/")]
     [Route("[controller]")]
     public class HomeController : Controller
     {
@@ -19,16 +21,16 @@ namespace SportLeader.Controllers
             _context = context;
             _sportLeaderService = sportLeaderService;
         }
-
-        [Route("~/")]
-        [Route("~/Home")]
-        [Route("~/Home/Index")]
+        [Route("")]
+        //[Route("~/Home")]
+        //[Route("~/Home/Index")]
+        [Route("Index")]
         public IActionResult Index()
         {
-            return View(); 
+            return View();
         }
 
-        [HttpGet("~/Home/Register")]
+        [HttpGet("Register")]
         public IActionResult Register()
         {
             var model = new LeaderInfoDTO();
@@ -38,10 +40,9 @@ namespace SportLeader.Controllers
             return View(model);
         }
 
-        [HttpPost("~/Home/Register")]
+        [HttpPost("Register")]
         public IActionResult Register(LeaderInfoDTO leaderInfo)
         {
-            // 유효성 검사
             if (ModelState.IsValid)
             {
                 if (_sportLeaderService.AddLeaderInfo(leaderInfo))
@@ -51,15 +52,10 @@ namespace SportLeader.Controllers
                 }
             }
 
-            // 이전에 입력한 값들을 유지하기 위해 ModelState를 유지
             return View(leaderInfo);
         }
 
-
-
-
-
-        [HttpGet("~/Detail")]
+        [HttpGet("Detail")]
         public IActionResult Detail([FromQuery] string id)
         {
             var leader = _sportLeaderService.Test(id)
@@ -99,21 +95,19 @@ namespace SportLeader.Controllers
             return View(leaderDTO);
         }
 
-        // 삭제 컨트롤러
-        [HttpDelete("~/Home")]
+        [HttpDelete("Delete")]
         public IActionResult Delete([FromBody] string[] leaderNos)
         {
             _sportLeaderService.DeleteSample(leaderNos);
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index");
         }
 
-
-        [HttpGet("~/Update")]
+        [HttpGet("Update")]
         public IActionResult Update([FromQuery] string id)
         {
             var leader = _sportLeaderService.Test(id)
-                                     .FirstOrDefault(r => r.LeaderNo == id);
+                         .FirstOrDefault(r => r.LeaderNo == id);
 
             var leaderDTO = new LeaderInfoDTO
             {
@@ -149,21 +143,25 @@ namespace SportLeader.Controllers
                     }),
             };
 
-            return View(leaderDTO);
+            return View("Update", leaderDTO); 
         }
-
-        [HttpPatch("~/Update")]
-        public IActionResult Update(LeaderInfoDTO model)
+        [HttpPost("Update")]
+        public IActionResult Update([FromForm] LeaderInfoDTO model)
         {
             if (ModelState.IsValid)
             {
                 _sportLeaderService.Update(model);
                 ModelState.Clear();
-                return RedirectToAction("Detail", "Home");
-            }
-            return View(model);
-        }
 
+                return RedirectToAction("Detail", "Home", new
+                {
+                    id = model.LeaderNo
+                });
+
+            }
+
+            return View("Update", model);
+        }
 
     }
 }

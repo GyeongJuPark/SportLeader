@@ -10,7 +10,7 @@
 <p>지도자 수정하기</p>
 
 <div class="inner">
-    <form action="/Update">
+    <form method="POST" action="/home/update">
         <div class="profile">
             <p>1. 일반 현황(2023년 01월 01일 기준)<small class="requiredFields">* 필수입력값 항목입니다.</small></p>
             <div class="division-line"></div>
@@ -54,16 +54,18 @@
                         <div class="form-group">
                             <div>
                                 <p>성명</p>
-                                <input type="text" id="LeaderName" name="LeaderName" value="@Model.LeaderName" placeholder="이름을 입력하세요." required />
+                                <input type="text" asp-for="@Model.LeaderName" placeholder="이름을 입력하세요." required /><br />
+                                <span asp-validation-for="@Model.LeaderName" class="text-danger"></span>
                             </div>
                             <div class="input__birthday">
                                 <p>생년월일</p>
-                                <input type="date" id="BirthDay" name="BirthDay" value="@Model.Birthday.ToString("yyyy-MM-dd")" data-placeholder="생년월일을 선택해주세요." required aria-required="true" />
+                                <input type="date" asp-for="@Model.Birthday" data-placeholder="생년월일을 선택해주세요." required aria-required="true" />
                             </div>
                             <div class="input__gender">
                                 <p>성별</p>
-                                <input type="radio" name="Gender" value="M" @(Model.Gender == "M" ? "checked" : "") />남자
-                                <input type="radio" name="Gender" value="W" @(Model.Gender == "W" ? "checked" : "") />여자
+                                <input type="radio" asp-for="@Model.Gender" value="M" />남자
+                                <input type="radio" asp-for="@Model.Gender" value="W" />여자<br />
+                                <span asp-validation-for="@Model.Gender" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -80,15 +82,25 @@
                                 @{
                                     string[] telParts = Model.TelNo.Split('-');
                                 }
-                                <input type="tel" name="TelNo" value="@telParts[0]" placeholder="063" maxlength="3" />-
-                                <input type="tel" name="TelNo2" value="@telParts[1]" placeholder="123" maxlength="3" />-
-                                <input type="tel" name="TelNo3" value="@telParts[2]" placeholder="4567" maxlength="4" />
+                                @if (Model.TelNo.Length > 3)
+                                {
+                                    <input type="tel" name="TelNo" value="@telParts[0]" placeholder="063" maxlength="3" />
+                                    <input type="tel" name="TelNo2" value="@telParts[1]" placeholder="123" maxlength="3" />
+                                    <input type="tel" name="TelNo3" value="@telParts[2]" placeholder="4567" maxlength="4" />
+                                }
+                                else
+                                {
+                                    <input type="tel" name="TelNo" asp-for="@Model.TelNo" placeholder="063" maxlength="3" />
+                                    <input type="tel" name="TelNo2" asp-for="@Model.TelNo2" placeholder="123" maxlength="3" />
+                                    <input type="tel" name="TelNo3" asp-for="@Model.TelNo3" placeholder="4567" maxlength="4" />
+                                }
+
                             </div>
 
 
                             <div>
                                 <p>최초채용</p>
-                                <input type="date" id="EmpDT" name="EmpDT" value="@Model.EmpDT.ToString("yyyy-MM-dd")" data-placeholder="최초채용일을 선택해주세요." required aria-required="true" />
+                                <input type="date" asp-for="@Model.EmpDT" data-placeholder="최초채용일을 선택해주세요." required aria-required="true" />
                             </div>
                         </div>
                     </div>
@@ -113,10 +125,13 @@
                             @foreach (var historyItems in Model.Histories.ToList())
                             {
                                 <tr>
-                                    <input type="hidden" id="HistoryLeaderNo" name="Histories[@hIndex].LeaderNo" value="@historyItems.LeaderNo" />
-                                    <td><input type="text" id="HistoriesSchoolName" name="Histories[@hIndex].SchoolName" value="@historyItems.SchoolName" placeholder="학교명을 입력해주세요." /></td>
-                                    <td><input type="date" id="HistoriesStartDT" name="Histories[@hIndex].StartDT" value="@historyItems.StartDT.ToString("yyyy-MM-dd")" data-placeholder="근무 시작일을 선택해주세요." required aria-required="true" /></td>
-                                    <td><input type="date" id="HistoriesEndDT" name="Histories[@hIndex].EndDT" value="@historyItems.EndDT?.ToString("yyyy-MM-dd")" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>
+                                    <input type="hidden" id="HistoryLeaderNo" name="Histories[@hIndex].LeaderNo" asp-for="@historyItems.LeaderNo" />
+                                    <td><input type="text" id="HistoriesSchoolName" name="Histories[@hIndex].SchoolName" asp-for="@historyItems.SchoolName" placeholder="학교명을 입력해주세요." /></td>
+                                    <span asp-validation-for="@historyItems.SchoolName" class="text-danger"></span>
+                                    <td><input type="date" id="HistoriesStartDT" name="Histories[@hIndex].StartDT" asp-for="@historyItems.StartDT" data-placeholder="근무 시작일을 선택해주세요." required aria-required="true" /></td>
+                                    <span asp-validation-for="@historyItems.StartDT" class="text-danger"></span>
+                                    <td><input type="date" id="HistoriesEndDT" name="Histories[@hIndex].EndDT" asp-for="@historyItems.EndDT" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>
+                                    <span asp-validation-for="@historyItems.EndDT" class="text-danger"></span>
                                     <td>
                                         <select id="HistoriesSportsNo" name="Histories[@hIndex].SportsNo" class="HistorySports"></select>
                                         <input type="hidden" name="HistorySports[@hIndex]" value="@historyItems.SportsNo" />
@@ -158,11 +173,15 @@
                             @foreach (var certificateItems in Model.Certificates.ToList())
                             {
                                 <tr>
-                                    <input type="hidden" id="CertificateLeaderNo" name="Certificates[0].LeaderNo" value="@certificateItems.LeaderNo" />
-                                    <td><input type="text" name="Certificates[0].CertificateName" value="@certificateItems.CertificateName" placeholder="자격을 입력해주세요." /></td>
-                                    <td><input type="text" name="Certificates[0].CertificateNo" value="@certificateItems.CertificateNo" placeholder="영문, 숫자만 입력해주세요." /></td>
-                                    <td><input type="date" name="Certificates[0].CertificateDT" value="@certificateItems.CertificateDT.ToString("yyyy-MM-dd")" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>
-                                    <td><input type="text" name="Certificates[0].Organization" value="@certificateItems.Organization" placeholder="발급기관을 입력해주세요." /></td>
+                                    <input type="hidden" id="CertificateLeaderNo" name="Certificates[0].LeaderNo" asp-for="@certificateItems.LeaderNo" />
+                                    <td><input type="text" name="Certificates[0].CertificateName" asp-for="@certificateItems.CertificateName" placeholder="자격을 입력해주세요." /></td>
+                                    <span asp-validation-for="@certificateItems.CertificateName" class="text-danger"></span>
+                                    <td><input type="text" name="Certificates[0].CertificateNo" asp-for="@certificateItems.CertificateNo" placeholder="영문, 숫자만 입력해주세요." /></td>
+                                    <span asp-validation-for="@certificateItems.CertificateNo" class="text-danger"></span>
+                                    <td><input type="date" name="Certificates[0].CertificateDT" asp-for="@certificateItems.CertificateDT" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>
+                                    <span asp-validation-for="@certificateItems.CertificateDT" class="text-danger"></span>
+                                    <td><input type="text" name="Certificates[0].Organization" asp-for="@certificateItems.Organization" placeholder="발급기관을 입력해주세요." /></td>
+                                    <span asp-validation-for="@certificateItems.Organization" class="text-danger"></span>
                                     <td>
                                         @if (CertificateisFirstRow)
                                         {

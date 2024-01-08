@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
-    loadModalTable('/api/GetLeaders', '#LeaderTableBody', 'LeaderNoModal');
-    loadModalTable('/api/GetSchools', '#SchoolTableBody', 'SchoolNameModal');
+    loadModalTable('/api/leaders', '#LeaderTableBody', 'LeaderNoModal');
+    loadModalTable('/api/schools', '#SchoolTableBody', 'SchoolNameModal');
     loadSports();
 });
 
@@ -41,7 +41,7 @@ function cancel_addLeader() {
     modal.find('.modal-body p').html('지도자 등록을 취소하시겠습니까?<br>작성한 내용은 모두 삭제됩니다.');
 
     var buttons = '<input class="btn btn-secondary" type="button" value="취소" onclick="closeShortModal()" style="margin-right: 8px;">';
-    buttons += '<a href="/"><input class="btn btn-primary" type="button" value="확인"></a>';
+    buttons += '<a href="/Home/Index"><input class="btn btn-primary" type="button" value="확인"></a>';
     modal.find('.modal-body .modal-buttons').html(buttons);
 
     modal.modal('show');
@@ -189,22 +189,25 @@ var historyIndex = 1;
 var certificateIndex = 1;
 function addWorking() {
     loadSports();
-    var LeaderNo = $("#LeaderNo").val();
-    var schoolName = $("#HistoriesSchoolName").val();
-    var startDT = $("#HistoriesStartDT").val();
-    var endDT = $("#HistoriesEndDT").val();
-    var sportsNo = $("#HistoriesSportsNo").val();
+    var addRows = $("#history_table tbody tr");
+    for (var i = 0; i < addRows.length; i++) {
+        var dynamicRow = addRows.eq(i);
+        var dynamicSchoolName = dynamicRow.find('input[name^="Histories["][name$="].SchoolName"]').val();
+        var dynamicStartDT = dynamicRow.find('input[name^="Histories["][name$="].StartDT"]').val();
+        var dynamicEndDT = dynamicRow.find('input[name^="Histories["][name$="].EndDT"]').val();
+        var dynamicSportsNo = dynamicRow.find('select[name^="Histories["][name$="].SportsNo"]').val();
 
-    console.log(LeaderNo, schoolName, startDT, endDT, sportsNo)
-    if (!schoolName || !startDT || !endDT || !sportsNo || startDT > endDT) {
-        alert("모든 항목을 입력해주세요!");
-        return;
+        if (!dynamicSchoolName || !dynamicStartDT || !dynamicEndDT || !dynamicSportsNo || dynamicStartDT > dynamicEndDT) {
+            alert("모든 항목을 입력하고, 근무시작일보다 근무종료일이 빠를 수 없습니다.");
+            return;
+        }
     }
+
     var row = '<tr>';
     row += '<input type="hidden" id="HistoryLeaderNo" name="Histories[' + historyIndex + '].LeaderNo" value="' + LeaderNo + '"/>';
     row += '<td><input type="text" name="Histories[' + historyIndex + '].SchoolName" value="" placeholder="학교명을 입력해주세요." /></td>';
     row += '<td><input type="date" name="Histories[' + historyIndex + '].StartDT" value="" data-placeholder="근무 시작일을 선택해주세요." required aria-required="true" /></td>';
-    row += '<td><input type="date" name="Histories[' + historyIndex + ']?.EndDT" value="" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>';
+    row += '<td><input type="date" name="Histories[' + historyIndex + '].EndDT" value="" data-placeholder="근무 종료일을 선택해주세요." required aria-required="true" /></td>';
     row += '<td><select class="Test" name="Histories[' + historyIndex + '].SportsNo"><option value="" disabled selected>종목을 선택해주세요</option></select><input type="hidden" id="asdasd" name="HistorySports[' + historyIndex + ']" value="@historiesItem.SportsNo" /></td>';
     row += '<td><input type="button" class="btn btn-sm minus-btn" value="삭제" onclick="Item_Remove(this)" style="background-color: #969696"/></td></tr>';
 
@@ -218,9 +221,9 @@ function addCertificate() {
     var row = '<tr>';
     row += '<input type="hidden" id="CertificateLeaderNo" name="Certificates[' + certificateIndex + '].LeaderNo" value="' + LeaderNo + '"/>'
     row += '<td><input type="text" name="Certificates[' + certificateIndex + '].CertificateName" value="" placeholder="자격을 입력해주세요." /></td>';
-    row += '<td><input type="text" name="Certificates[' + certificateIndex + '].CertificateNo" value="" data-placeholder="영문, 숫자만 입력해주세요." required aria-required="true" /></td>';
+    row += '<td><input type="text" name="Certificates[' + certificateIndex + '].CertificateNo" value="" placeholder="영문, 숫자만 입력해주세요." required aria-required="true" /></td>';
     row += '<td><input type="date" name="Certificates[' + certificateIndex + '].CertificateDT" value="" data-placeholder="취득일자를 선택해주세요." required aria-required="true" /></td>';
-    row += '<td><input type="text" name="Certificates[' + certificateIndex + '].Organization" value="" data-placeholder="발급기관을 선택해주세요." required aria-required="true" /></td>';
+    row += '<td><input type="text" name="Certificates[' + certificateIndex + '].Organization" value="" placeholder="발급기관을 선택해주세요." required aria-required="true" /></td>';
     row += '<td><input type="button" class="btn btn-sm minus-btn" value="삭제" onclick="Item_Remove(this)" style="background-color: #969696"/></td></tr>';
 
     $("#certificate_table").append(row);
@@ -372,7 +375,7 @@ function submitForm() {
 
 function loadSports() {
     $.ajax({
-        url: '/api/GetSports',
+        url: '/api/sports',
         type: 'GET',
         dataType: 'json',
         success: function (data) {
@@ -462,19 +465,21 @@ function loadModalTable(url, tbodySelector, modalId) {
 }
 
 function updateLeader() {
-    var formData = $('form').serialize();
+    //var formData = $('form').serialize();
+    var form = $('form');
+    form.submit();
     
-    $.ajax({
-        url: '/Update',
-        type: 'PATCH',
-        data: formData,
-        success: function () {
-            window.location.href = '/Home/Index';
-            console.log("수정 성공");
-        },
-        error: function (error) {
-            console.error('수정 실패:', error);
-        }
-    });
+    //$.ajax({
+    //    url: 'Update',
+    //    type: 'PATCH',
+    //    contentType: 'multipart/form-data',
+    //    data: formData,
+    //    success: function () {
+    //        console.log("수정 성공");
+    //    },
+    //    error: function (error) {
+    //        console.error('수정 실패:', error);
+    //    }
+    //});
 }
 

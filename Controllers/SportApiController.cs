@@ -9,13 +9,10 @@ namespace SportLeader.Controllers
     [Route("api/sports")]
     public class SportApiController : ControllerBase
     {
-        private readonly SpotrsLeaderDBContext _context;
         private readonly ISportLeaderService _sportLeaderService;
 
-        public SportApiController(SpotrsLeaderDBContext context,
-            ISportLeaderService sportLeaderService)
+        public SportApiController(ISportLeaderService sportLeaderService)
         {
-            _context = context;
             _sportLeaderService = sportLeaderService;
         }
         // 종목 컨트롤러

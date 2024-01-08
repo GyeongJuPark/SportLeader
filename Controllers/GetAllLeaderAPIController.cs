@@ -6,16 +6,13 @@ using SportLeader.Services;
 namespace SportLeader.Controllers
 {
     [ApiController]
-    [Route("api/schools")]
+    [Route("api/alls")]
     public class GetAllLeaderAPIController : ControllerBase
     {
-        private readonly SpotrsLeaderDBContext _context;
         private readonly ISportLeaderService _sportLeaderService;
 
-        public GetAllLeaderAPIController(SpotrsLeaderDBContext context,
-            ISportLeaderService sportLeaderService)
+        public GetAllLeaderAPIController(ISportLeaderService sportLeaderService)
         {
-            _context = context;
             _sportLeaderService = sportLeaderService;
         }
         // 전체 지도자 목록 컨트롤러
