@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using SportLeader.Data;
 using SportLeader.DTO;
 using SportLeader.Services;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace SportLeader.Controllers
 {
@@ -22,8 +20,6 @@ namespace SportLeader.Controllers
             _sportLeaderService = sportLeaderService;
         }
         [Route("")]
-        //[Route("~/Home")]
-        //[Route("~/Home/Index")]
         [Route("Index")]
         public IActionResult Index()
         {
