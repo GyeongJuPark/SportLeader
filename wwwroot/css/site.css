@@ -12,12 +12,9 @@
 }
 
 html, body {
-    width: 1600px;
-    height: 720px;
     font-family: Pretendard-Regular;
     font-weight: 400;
     font-size: 14px;
-    
 }
 
 #LeaderRegisterTitle {
