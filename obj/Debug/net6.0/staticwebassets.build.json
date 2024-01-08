@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ZcMV5g/ruw5w0a9RVOc7qg9L/KdZJQJKjGxuZJDhOaw=",
+  "Hash": "paJrtuYPl74/j85GtcWcAYYmMsgrtvjYfIHRka52RgU=",
   "Source": "SportLeader",
   "BasePath": "_content/SportLeader",
   "Mode": "Default",
@@ -300,25 +300,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\register.js"
-    },
-    {
-      "Identity": "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\wwwroot\\js\\site.js",
-      "SourceId": "SportLeader",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\HeadIT\\Downloads\\2024-01-01\\2024-01-01\\SportLeader\\SportLeader\\wwwroot\\",
-      "BasePath": "_content/SportLeader",
-      "RelativePath": "js/site.js",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\js\\site.js"
     }
   ]
 }
