@@ -94,7 +94,7 @@ namespace SportLeader.Controllers
         [HttpDelete("Delete")]
         public IActionResult Delete([FromBody] string[] leaderNos)
         {
-            _sportLeaderService.DeleteSample(leaderNos);
+            _sportLeaderService.Delete(leaderNos);
 
             return RedirectToAction("Index");
         }
@@ -149,10 +149,7 @@ namespace SportLeader.Controllers
                 _sportLeaderService.Update(model);
                 ModelState.Clear();
 
-                return RedirectToAction("Detail", "Home", new
-                {
-                    id = model.LeaderNo
-                });
+                return RedirectToAction("Detail", "Home", new { id = model.LeaderNo });
 
             }
 
