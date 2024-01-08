@@ -22,6 +22,7 @@
                     <div class="profile__imageArea">
                         <img id="img" src="data:image/png;base64,@Model.LeaderImage" />
                         <input type="hidden" id="LeaderImage" name="LeaderImage" value="@Model.LeaderImage" />
+                        <span asp-validation-for="@Model.LeaderImage" class="text-danger"></span>
                         <label class="profile__imageLabel" for="input-image">
                             <p>사진 첨부하기</p>
                         </label>
@@ -37,14 +38,16 @@
                         <div class="form-group">
                             <div class="input__code">
                                 <p>식별코드</p>
-                                <input type="text" id="LeaderNo" name="LeaderNo" value="@Model.LeaderNo" readonly style="background-color: #EEEEEE" />
+                                <input type="text" asp-for="@Model.LeaderNo" value="@Model.LeaderNo" readonly style="background-color: #EEEEEE" />
                                 <button type="button" onclick="openLeaderModal()" disabled style="background-color: #DDDDDD">식별코드검색</button>
 
                             </div>
                             <div class="input__school">
                                 <p>학교명</p>
-                                <input type="text" id="SchoolName" name="SchoolName" value="@Model.SchoolName" placeholder="학교명을 선택해주세요." />
-                                <input type="hidden" id="SchoolNo" name="SchoolNo" value="@Model.SchoolNo" />
+                                <input type="text" asp-for="@Model.SchoolName" value="@Model.SchoolName" placeholder="학교명을 선택해주세요." />
+                                <span asp-validation-for="@Model.SchoolName" class="text-danger"></span>
+                                <input type="hidden" asp-for="@Model.SchoolNo" value="@Model.SchoolNo" />
+                                <span asp-validation-for="@Model.SchoolNo" class="text-danger"></span>
                                 <button type="button" onclick="openSchoolModal()">학교명검색</button>
                             </div>
                         </div>
