@@ -7,11 +7,11 @@ namespace SportLeader.Controllers
 {
     [ApiController]
     [Route("api/alls")]
-    public class GetAllLeaderAPIController : ControllerBase
+    public class GetAllLeaderApiController : ControllerBase
     {
         private readonly ISportLeaderService _sportLeaderService;
 
-        public GetAllLeaderAPIController(ISportLeaderService sportLeaderService)
+        public GetAllLeaderApiController(ISportLeaderService sportLeaderService)
         {
             _sportLeaderService = sportLeaderService;
         }
