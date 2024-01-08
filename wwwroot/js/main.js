@@ -11,50 +11,6 @@ var orgLeaders = [];
 var filteredLeaders = [];
 
 
-// [ 지도자 상세정보 ] 근무이력 
-function updateWorkHistory(workHistory) {
-    var historyInfoTable = $("#historyInfoTableBody");
-    historyInfoTable.empty();
-
-    if (workHistory && workHistory.length > 0) {
-        for (var i = 0; i < workHistory.length; i++) {
-            var history = workHistory[i];
-            historyInfoTable.append(
-                "<tr>" +
-                "<td>" + history.schoolName + "</td>" +
-                "<td>" + history.startDT + "</td>" +
-                "<td>" + history.endDT + "</td>" +
-                "<td>" + history.sportName + "</td>" +
-                "</tr>"
-            );
-        }
-    } else {
-        console.warn("근무 이력 데이터가 없습니다.");
-    }
-}
-
-// [ 지도자 상세정보 ] 자격사항 
-function updateCertificates(certificates) {
-    var certificateInfoTable = $("#certificateInfoTableBody");
-    certificateInfoTable.empty();
-
-    if (certificates && certificates.length > 0) {
-        for (var i = 0; i < certificates.length; i++) {
-            var certificate = certificates[i];
-            certificateInfoTable.append(
-                "<tr>" +
-                "<td>" + certificate.certificateName + "</td>" +
-                "<td>" + certificate.certificateNumber + "</td>" +
-                "<td>" + certificate.certificateDT + "</td>" +
-                "<td>" + certificate.organization + "</td>" +
-                "</tr>"
-            );
-        }
-    } else {
-        console.warn("자격사항 데이터가 없습니다.");
-    }
-}
-
 // [ 지도자 관리 ] - 검색기능
 function searchInput() {
     var searchInput = $("#searchInput").val() ?? '';
@@ -197,8 +153,6 @@ function allLeaderList() {
 }
 
 function drawLeaderTable(data, currentPage) {
-
-    //console.log(`테이블 그리기: ${data.length}`);
     $("#leaderListTableBody").empty();
     var startIndex = (currentPage - 1) * itemsPerPage;
     var endIndex = startIndex + itemsPerPage;
