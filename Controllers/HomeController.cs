@@ -10,13 +10,10 @@ namespace SportLeader.Controllers
     [Route("[controller]")]
     public class HomeController : Controller
     {
-        private readonly SpotrsLeaderDBContext _context;
         private readonly ISportLeaderService _sportLeaderService;
 
-        public HomeController(SpotrsLeaderDBContext context,
-            ISportLeaderService sportLeaderService)
+        public HomeController(ISportLeaderService sportLeaderService)
         {
-            _context = context;
             _sportLeaderService = sportLeaderService;
         }
         [Route("")]
