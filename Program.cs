@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using SportLeader.Data;
-using SportLeader.Services;
-using System;
-
+using SportLeader.Application.SportsLeader;
+using SportLeader.Infra.DB;
+using SportLeader.Repository;
+using static SportLeader.Application.SportsLeader.SportLeaderService;
 namespace SportLeader
 {
     public class Program
@@ -18,17 +18,14 @@ namespace SportLeader
             });
 
             builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
+            builder.Services.AddScoped<LeaderRepository>();
             builder.Services.AddScoped<ISportLeaderService, SportLeaderService>();
+
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             var app = builder.Build();
 
             app.UseStaticFiles();
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute(
-            //        name: "default",
-            //        template: "{controller=Home}/{action=Index}/{LeaderNo?}");
-            //});
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

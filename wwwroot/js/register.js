@@ -382,7 +382,7 @@ function loadSports() {
         success: function (data) {
             $(".sports-dropdown").each(function (index, dropdown) {
                 $.each(data, function (index, item) {
-                    var isSelected = ($("#Sports").val() === item.sportsNo)
+                    var isSelected = ($("#Sports").val() === item.sportsName)
                     var Test = ($("#TestSports").val() === item.sportsNo)
                     var option = $("<option>").attr("value", item.sportsNo).text(item.sportsName);
                     if (isSelected) {
@@ -422,7 +422,7 @@ function loadSports() {
                     $(dropdown).append(option);
 
                     var inputValue = $("input[name='HistorySports[" + index + "]']").val();
-                    var isSelected = (inputValue === item.sportsNo);
+                    var isSelected = (inputValue === item.sportsName);
 
                     if (isSelected) {
                         option.prop("selected", true);

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SportLeader.Data;
+using SportLeader.Application.SportsLeader;
 using SportLeader.DTO;
-using SportLeader.Services;
 
 namespace SportLeader.Controllers
 {
@@ -20,14 +19,7 @@ namespace SportLeader.Controllers
         public IActionResult GetSchools()
         {
             var schools = _sportLeaderService.GetSchoolList();
-
-            var schoolDTO = schools.Select(sp => new SchoolDTO
-            {
-                SchoolNo = sp.SchoolNo,
-                SchoolName = sp.SchoolName
-            });
-
-            return Ok(schoolDTO);
+            return Ok(schools);
         }
 
     }

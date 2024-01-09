@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SportLeader.DTO;
 using SportLeader.Models;
 
-namespace SportLeader.Data
+namespace SportLeader.Infra.DB
 {
     public class SpotrsLeaderDBContext : DbContext
     {
@@ -25,7 +24,7 @@ namespace SportLeader.Data
                 option.HasOne(a => a.T_Leader)
                       .WithOne()
                       .HasForeignKey<T_LeaderWorkInfo>(a => a.LeaderNo);
-                
+
                 option.HasOne(a => a.T_Sport)
                       .WithMany()
                       .HasForeignKey(a => a.SportsNo)
@@ -40,13 +39,13 @@ namespace SportLeader.Data
                       .WithOne()
                       .HasForeignKey<T_LeaderImage>(a => a.LeaderNo);
             });
-                
+
 
             modelBuilder.Entity<T_History>(option =>
             {
                 option.HasKey(h => new { h.LeaderNo, h.HistorySequence });
                 option.Property(r => r.HistorySequence).UseIdentityColumn();
-                
+
                 option.HasOne(h => h.T_LeaderWorkInfo)
                       .WithMany(s => s.T_History)
                       .HasForeignKey(h => h.LeaderNo);
@@ -69,9 +68,9 @@ namespace SportLeader.Data
                       .WithMany(s => s.T_Certificate)
                       .HasForeignKey(h => h.LeaderNo);
             });
-                
 
-            
+
+
         }
     }
 }

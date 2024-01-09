@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using SportLeader.Application.SportsLeader;
 using SportLeader.DTO;
-using SportLeader.Services;
 
 namespace SportLeader.Controllers.Api
 {
@@ -20,13 +21,7 @@ namespace SportLeader.Controllers.Api
         {
             var sports = _sportLeaderService.GetSportList();
 
-            var sportDTO = sports.Select(sp => new SportDTO
-            {
-                SportsNo = sp.SportsNo,
-                SportsName = sp.SportsName
-            });
-
-            return Ok(sportDTO);
+            return Ok(sports);
         }
     }
 }

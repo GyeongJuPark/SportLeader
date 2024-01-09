@@ -1,30 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace SportLeader.DTO
+using SportLeader.DTO;
+
+namespace SportLeader.Controllers.Client.Request
 {
-    public class LeaderImageDto
-    {
-        public string LeaderImage { get; set; }
-    }
-
-    public class LeaderDto
-    {
-        public string LeaderNo { get; set; }
-        public string LeaderName { get; set; }
-    }
-
-    public class SportDto
-    {
-        public string SportsNo { get; set; }
-        public string SportsName { get; set; }
-    }
-
-    public class SchoolDto
-    {
-        public string SchoolNo { get; set; }
-        public string SchoolName { get; set; }
-    }
-
-    public class LeaderInfoDto
+    public class RegisterSportsLeaderRequest
     {
         [Required]
         [RegularExpression("^JB[0-9]{2}[-]+[0-9]{3}$", ErrorMessage = "JB19-??? 형식이어야 합니다.")]
@@ -72,43 +51,5 @@ namespace SportLeader.DTO
 
         public IEnumerable<HistoryDto> Histories { get; set; }
         public IEnumerable<CertificateDto> Certificates { get; set; }
-    }
-
-    public class CertificateDto
-    {
-        [Required]
-        public string LeaderNo { get; set; }
-
-        [Required]
-        public string CertificateName { get; set; }
-
-        [Required]
-        public string CertificateNo { get; set; }
-
-        [Required]
-        public DateTime CertificateDT { get; set; }
-
-        [Required]
-        public string Organization { get; set; }
-    }
-
-    public class HistoryDto
-    {
-        [Required]
-        public string LeaderNo { get; set; }
-
-        [Required]
-        public DateTime StartDT { get; set; }
-
-        public DateTime? EndDT { get; set; }
-
-        [Required]
-        [RegularExpression("^[가-힣a-zA-Z]+$", ErrorMessage = "한글 또는 영문자만 입력 가능합니다.")]
-        public string SchoolName { get; set; }
-
-        [Required]
-        [RegularExpression("^CN[0-9]{4}$")]
-        public string SportsNo { get; set; }
-
     }
 }

@@ -1,83 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using SportLeader.Data;
-using SportLeader.DTO;
+using SportLeader.Controllers.Client.Request;
+using SportLeader.Infra.DB;
 using SportLeader.Models;
 
-namespace SportLeader.Services
+namespace SportLeader.Repository
 {
-
-    public interface ISportLeaderService
-    {
-        IEnumerable<T_Sport> GetSportList();
-        IEnumerable<T_Leader> GetLeaderList();
-        IEnumerable<T_School> GetSchoolList();
-        IEnumerable<T_LeaderWorkInfo> GetAllList();
-        IEnumerable<T_History> GetHistoryList();
-        IEnumerable<T_Certificate> GetCertificateList();
-        IEnumerable<T_LeaderWorkInfo> Test(string LeaderNO);
-        bool AddLeaderInfo(LeaderInfoDTO LeaderWorkInfo);
-        void Save();
-        void Delete(string[] leaderinfoDTO);
-        bool Update(LeaderInfoDTO leaderInfoDTO);
-    }
-
-    public class SportLeaderService : ISportLeaderService
+    public class LeaderRepository : ILeaderRepository
     {
         private readonly SpotrsLeaderDBContext _dBContext;
 
-        public SportLeaderService(SpotrsLeaderDBContext dBContext)
+        public LeaderRepository(SpotrsLeaderDBContext dBContext)
         {
             _dBContext = dBContext;
         }
 
-        public IEnumerable<T_Sport> GetSportList()
-        {
-            return _dBContext.T_Sport.ToList();
-        }
-
-        public IEnumerable<T_Leader> GetLeaderList()
-        {
-            return _dBContext.T_Leader.ToList();
-        }
-
-        public IEnumerable<T_LeaderWorkInfo> GetAllList()
-        {
-            return _dBContext.T_LeaderWorkInfo
-                .Include(r => r.T_LeaderImage)
-                .Include(r => r.T_History)
-                .Include(r => r.T_Certificate)
-                .Include(r => r.T_School)
-                .Include(r => r.T_Sport)
-                .ToList();
-        }
-
-        public IEnumerable<T_LeaderWorkInfo> Test(string LeaderNo)
-        {
-            return _dBContext.T_LeaderWorkInfo
-                .Include(r => r.T_History)
-                    .ThenInclude(r => r.T_Sport)
-                .Include(r => r.T_Certificate)
-                .Include(r => r.T_Sport)
-                .Include(r => r.T_School)
-                .Include(r => r.T_LeaderImage)
-                .ToList();
-        }
-
-        public IEnumerable<T_School> GetSchoolList()
-        {
-            return _dBContext.T_School.ToList();
-        }
-
-        public IEnumerable<T_History> GetHistoryList()
-        {
-            return _dBContext.T_History.ToList();
-        }
-
-        public IEnumerable<T_Certificate> GetCertificateList()
-        {
-            return _dBContext.T_Certificate.ToList();
-        }
-        public bool AddLeaderInfo(LeaderInfoDTO LeaderWorkInfo)
+        // 1. 지도자 등록
+        public bool Create(RegisterSportsLeaderRequest LeaderWorkInfo)
         {
             var _transaction = _dBContext.Database.BeginTransaction();
             try
@@ -108,7 +46,6 @@ namespace SportLeader.Services
                     historyList.Add(t_history);
                 }
 
-
                 List<T_Certificate> certificateList = new List<T_Certificate>();
                 foreach (var certificateItems in LeaderWorkInfo.Certificates)
                 {
@@ -122,7 +59,6 @@ namespace SportLeader.Services
                     };
                     certificateList.Add(t_certificate);
                 }
-
 
                 T_LeaderImage t_leaderImage = new T_LeaderImage
                 {
@@ -144,52 +80,13 @@ namespace SportLeader.Services
             catch (Exception ex)
             {
                 _transaction.Rollback();
+                throw new Exception("생성 중에 뭐때문에 오류가 발생했다.");
                 return false;
             }
         }
 
-
-        public void Save()
-        {
-            _dBContext.SaveChanges();
-        }
-
-        public void AddCertificate(T_Certificate t_certificate)
-        {
-            _dBContext.T_Certificate.Add(t_certificate);
-        }
-
-        public void Delete(string[] leaderNos)
-        {
-            //1.넘어온 값이 실제로 db에 있는지 체크
-
-            //string[]에 있는 값과 LeaderNo가 비교가 됨 그래서 포함된 것만 return
-            //1,2,3,4,5 -> db에 실제로 있는 것만 리턴됨 1,2,3
-            var entity = _dBContext.T_LeaderWorkInfo
-                .Include(lw => lw.T_History)
-                .Include(lw => lw.T_Certificate)
-                .Include(lw => lw.T_LeaderImage)
-                .Where(x => leaderNos.Contains(x.LeaderNo))
-                .ToList();
-            
-            //1-2.삭제 할 데이터가 있는지 확인
-            if(entity.Any()) {
-                //2.있는 데이터만 삭제
-                foreach(var leader in entity)
-                {
-                    _dBContext.T_History.RemoveRange(leader.T_History);
-                    _dBContext.T_Certificate.RemoveRange(leader.T_Certificate);
-                    _dBContext.T_LeaderImage.Remove(leader.T_LeaderImage);
-                    _dBContext.SaveChanges();
-                    _dBContext.T_LeaderWorkInfo.RemoveRange(leader);
-                    _dBContext.SaveChanges();
-                }
-                
-            }
-        }
-
-
-        public bool Update(LeaderInfoDTO LeaderWorkInfo)
+        // 2. 지도자 수정
+        public bool Modify(UpdateSportsLeaderRequest LeaderWorkInfo)
         {
             var entity = _dBContext.T_LeaderWorkInfo
                 .Include(l => l.T_History)
@@ -247,7 +144,77 @@ namespace SportLeader.Services
             return false;
         }
 
+        // 3. 지도자 삭제
+        public void Delete(string[] leaderNos)
+        {
+            //1.넘어온 값이 실제로 db에 있는지 체크
+
+            //string[]에 있는 값과 LeaderNo가 비교가 됨 그래서 포함된 것만 return
+            //1,2,3,4,5 -> db에 실제로 있는 것만 리턴됨 1,2,3
+            var entity = _dBContext.T_LeaderWorkInfo
+                .Include(lw => lw.T_History)
+                .Include(lw => lw.T_Certificate)
+                .Include(lw => lw.T_LeaderImage)
+                .Where(x => leaderNos.Contains(x.LeaderNo))
+                .ToList();
+
+            //1-2.삭제 할 데이터가 있는지 확인
+            if (entity.Any())
+            {
+                //2.있는 데이터만 삭제
+                foreach (var leader in entity)
+                {
+                    _dBContext.T_History.RemoveRange(leader.T_History);
+                    _dBContext.T_Certificate.RemoveRange(leader.T_Certificate);
+                    _dBContext.T_LeaderImage.Remove(leader.T_LeaderImage);
+                    _dBContext.SaveChanges();
+                    _dBContext.T_LeaderWorkInfo.RemoveRange(leader);
+                    _dBContext.SaveChanges();
+                }
+            }
+        }
+
+
+        public IEnumerable<T_Sport> GetSportList()
+        {
+            return _dBContext.T_Sport.ToList();
+        }
+
+        public IEnumerable<T_Leader> GetLeaderList()
+        {
+            return _dBContext.T_Leader.ToList();
+        }
+
+        public IEnumerable<T_LeaderWorkInfo> GetAllList()
+        {
+            return _dBContext.T_LeaderWorkInfo
+                .Include(r => r.T_LeaderImage)
+                .Include(r => r.T_History)
+                .Include(r => r.T_Certificate)
+                .Include(r => r.T_School)
+                .Include(r => r.T_Sport)
+                .ToList();
+        }
+
+        public IEnumerable<T_LeaderWorkInfo> GetAllList(string LeaderNo)
+        {
+            return _dBContext.T_LeaderWorkInfo
+                .Include(r => r.T_History)
+                    .ThenInclude(r => r.T_Sport)
+                .Include(r => r.T_Certificate)
+                .Include(r => r.T_Sport)
+                .Include(r => r.T_School)
+                .Include(r => r.T_LeaderImage)
+                .ToList();
+        }
+
+        public IEnumerable<T_School> GetSchoolList()
+        {
+            return _dBContext.T_School.ToList();
+        }
+
 
     }
 }
+
 
