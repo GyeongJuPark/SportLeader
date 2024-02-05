@@ -137,7 +137,7 @@ function calculateTotalPages(totalItems, itemsPerPage) {
 function allLeaderList() {
     $.ajax({
         type: "GET",
-        url: "/api/leaders/all",
+        url: "/api/leaders/list",
         dataType: "json",
 
         success: function (data) {

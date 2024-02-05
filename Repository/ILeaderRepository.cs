@@ -12,6 +12,6 @@ namespace SportLeader.Repository
         IEnumerable<T_Leader> GetLeaderList();
         IEnumerable<T_School> GetSchoolList();
         IEnumerable<T_Sport> GetSportList();
-        bool Modify(UpdateSportsLeaderRequest LeaderWorkInfo);
+        bool Modify(RegisterSportsLeaderRequest LeaderWorkInfo);
     }
 }

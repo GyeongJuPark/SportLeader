@@ -34,20 +34,20 @@ namespace SportLeader.Controllers
             return View(model);
         }
 
-        [HttpPost("Register")]
-        public IActionResult Register([FromForm] RegisterSportsLeaderRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                _sportLeaderService.Create(request);
-                ModelState.Clear();
-                return RedirectToAction("Index");
-            }
+    [HttpPost("Register")]
+    public IActionResult Register([FromForm] RegisterSportsLeaderRequest request)
+    {
+      if (ModelState.IsValid)
+      {
+        _sportLeaderService.Create(request);
+        ModelState.Clear();
+        return RedirectToAction("Index");
+      }
 
-            return View(request);
-        }
+      return View(request);
+    }
 
-        [HttpGet("Detail")]
+    [HttpGet("Detail")]
         public IActionResult Detail([FromQuery] string id)
         {
             var leaderDTO = _sportLeaderService.Read(id);
@@ -73,7 +73,7 @@ namespace SportLeader.Controllers
         }
 
         [HttpPost("Update")]
-        public IActionResult Update([FromForm] UpdateSportsLeaderRequest request)
+        public IActionResult Update([FromForm] RegisterSportsLeaderRequest request)
         {
             if (ModelState.IsValid)
             {

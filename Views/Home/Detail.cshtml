@@ -95,7 +95,7 @@
                             {
                                 <tr>
                                     <td id="historySchoolName">@historyItems.SchoolName</td>
-                                    <td id="historyStartDT">@historyItems.StartDT.ToString("yyyy-MM-dd")</td>
+                                    <td id="historyStartDT">@historyItems.StartDT.ToString?("yyyy-MM-dd")</td>
                                     <td id="historyEndDT">
                                         @if (historyItems.EndDT != default(DateTime))
                                         {
@@ -135,7 +135,7 @@
                                 <tr>
                                     <td id="certificateName">@certificateItems.CertificateName</td>
                                     <td id="certificateNumber">@certificateItems.CertificateNo</td>
-                                    <td>@certificateItems.CertificateDT.ToString("yyyy-MM-dd")</td>
+                                    <td>@certificateItems.CertificateDT.ToString?("yyyy-MM-dd")</td>
                                     <td>@certificateItems.Organization</td>
                                 </tr>
                             }

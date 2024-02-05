@@ -10,16 +10,15 @@ namespace SportLeader.Models
 
         public string SportsNo { get; set; }
 
-
         public string LeaderName { get; set; }
 
-        public DateTime Birthday { get; set; }
+        public DateTime? Birthday { get; set; }
 
         public string Gender { get; set; }
 
         public string TelNo { get; set; }
 
-        public DateTime EmpDT { get; set; }
+        public DateTime? EmpDT { get; set; }
 
         public virtual T_Leader T_Leader { get; set; }
 
