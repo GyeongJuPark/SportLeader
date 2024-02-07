@@ -13,7 +13,7 @@ namespace SportLeader.Application.SportsLeader
     void Update(RegisterSportsLeaderRequest model);
     LeaderInfoDto Read(string leaderId);
     void Delete(string[] leaderNos);
-    IEnumerable<LeaderInfoDto> GetAllList();
+    IEnumerable<LeaderInfoDto> GetAllList();   
     IEnumerable<LeaderInfoDto> GetAllList(string LeaderNo);
     IEnumerable<LeaderDto> GetLeaderList();
     IEnumerable<SchoolDto> GetSchoolList();
